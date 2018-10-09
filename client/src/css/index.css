@@ -1,0 +1,26 @@
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#app{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.centered_block{
+  display: flex;
+  height: fit-content;
+  align-content: center;
+  justify-content: center;
+}
+form{
+  height:fit-content;
+}
+.main_windows{
+  display: flex;
+  flex-direction: row;
+}

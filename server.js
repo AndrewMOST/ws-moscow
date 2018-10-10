@@ -25,7 +25,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
         return console.log(err);
     }
     db = client.db('wsdatabase');
-    app.listen(8000, function(){
+    app.listen(5000, function(){
         console.log('Server started');
         ///db.collection('BCUsers').deleteMany({});
         db.collection('BCUsers').findOne({}, function(err, result){
@@ -77,5 +77,14 @@ app.post('/signin', function(req, res){
     })
 
 })
+
+
+app.get('/user', (req, res) =>{
+    res.sendFile(path.join(__dirname+'/site/main.html'));
+});
+
+app.get('/moder', (req, res) =>{
+    res.sendFile(path.join(__dirname+'/site/main.html'));
+});
 
 //Check

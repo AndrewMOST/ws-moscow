@@ -11,7 +11,7 @@ const url = 'mongodb://169.254.3.88:27017/mydb';
 
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'site/')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

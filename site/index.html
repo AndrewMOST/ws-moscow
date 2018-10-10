@@ -5,36 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/icon.css">
 
     <!-- Подключаем Jquery -->
     <script src="js/jquery-3.3.1.js"></script>
     <title>Орёл и Решка</title>
     <!-- Подключаем Materialize css -->
     <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/index.css">
 
   </head>
   <body>
     <div id="app">
         <div class="container"><div class="row">
+
             <!-- Блок регистрации -->
-            <div class="col s6">
+            <div class="col s6"><div class="card"><div class="card-content">
               <h4>Регистрация</h4>
               <div class="row">
                   <div class="input-field col s12">
-                    <input type="text" id="new-password-input">
-                    <label for="new-password-input">Autocomplete</label>
+                    <input type="text" id="new-password-input" type="text" class="validate">
+                    <label for="new-password-input">Ваш пароль</label>
                   </div>
+                  <div id="datablock" style="display:none"></div>
               </div>
-            </div>
+              <a class="waves-effect waves-light btn" href="javascript:register()">Зарегистрироваться</a>
+            </div></div></div>
 
             <!-- Блок авторизации -->
-            <div class="col s6"></div>
+            <div class="col s6"><div class="card"><div class="card-content">
+              <h4>Авторизация</h4>
+              <div class="row">
+                  <div class="input-field col s12">
+                    <input type="text" id="login" type="text" class="validate">
+                    <label for="login">Логин</label>
+                  </div>
+                  <div class="input-field col s12">
+                      <input type="text" id="password" type="text" class="validate">
+                      <label for="password">Пароль</label>
+                  </div>
+              </div>
+              <a class="waves-effect waves-light btn" href="javascript:login()">Войти</a>
+            </div></div></div>
+
         </div></div>
     </div>
   </body>
-  
+    <script>
+    function register(){
+      password = $('#new-password-input').val();
+      $.post('/signin', {password:password}).done((data) => {$('#datablock').html(data)});
+    }
+    function login(){
+      login = $('#login').val();
+      password = $('#password').val();
+      $.post('/signin', {login:login, password:password}).done((data) => {
+        if (data === false){
+          $('#login, #password').addClass('invalid');
+        }
+      });
+    }
+    </script>
     <!-- Подключаем Materialize js -->
     <script src="js/materialize.min.js"></script>
 </html>

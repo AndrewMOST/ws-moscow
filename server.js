@@ -52,7 +52,7 @@ app.post('/signup', function(req, res){
         privateKey = web3.eth.accounts.create().privateKey.substr(2)
         obj = web3.eth.accounts.privateKeyToAccount(privateKey);
         console.log(obj);
-        return {password: password, address: obj.address, privatekey: obj.privateKey}
+        return {password: password, address: obj.address, privatekey: obj.privateKey, role: '0'}
     }
     regdata = returnCredentials(password);
     res.send(regdata);
@@ -73,7 +73,7 @@ app.post('/signin', function(req, res){
         if (result === null){
             return res.send('false')
         }
-        res.send('true')
+        res.send({role: result.role, check: true})
     })
 
 })

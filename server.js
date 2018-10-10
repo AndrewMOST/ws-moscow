@@ -6,7 +6,7 @@ var web3 = new Web3();
 var MongoClient = require('mongodb').MongoClient;
 var db;
 var a;
-const url = 'mongodb://Andrew:gaygay69@ds113923.mlab.com:13923/wsdatabase';
+const url = 'mongodb://169.254.3.88:27017/mydb';
 
 
 const path = require('path');

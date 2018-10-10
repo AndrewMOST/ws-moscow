@@ -5,7 +5,6 @@ var Web3 = require("web3");
 var web3 = new Web3();
 var MongoClient = require('mongodb').MongoClient;
 var db;
-var a;
 const url = 'mongodb://169.254.3.88:27017/mydb';
 
 
@@ -24,8 +23,14 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
     db = client.db('wsdatabase');
     app.listen(5000, function(){
         console.log('Server started');
-        ///db.collection('Newcollection').deleteMany({});
+        ///db.collection('appscollection').deleteMany({});
         db.collection('BCUsers').findOne({}, function(err, result){
+            console.log(result)
+        });
+        db.collection('appscollection').findOne({status: '0'}, function(err, result){
+            console.log(result)
+        });
+        db.collection('appscollection').findOne({status: '1'}, function(err, result){
             console.log(result)
         })
 
@@ -92,8 +97,22 @@ app.post('/createapp', function(req, res){
         if (err){
             return console.log(err)
         }
-        res.sendFile(path.join(__dirname+'/site/mainu.html'))
+        res.sendStatus(200);
+        //res.sendFile(path.join(__dirname+'/site/mainu.html'))
     })
 });
+
+//Post-запрос на получение информации об оставленных пользователем заявках.
+//Ищет заявки в базе по ключу пользователя, отправившего запрос.
+app.post('/getapps_user', function(req, res){
+    appdata = req.body;
+    db.collection('appscollection').findOne({login: appdata.login, status: '1'}, function(err, result){
+        if (err){
+            return console.log(err)
+        }
+        res.send(result)
+    })
+});
+
 
 //Check

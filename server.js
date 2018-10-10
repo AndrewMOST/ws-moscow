@@ -27,9 +27,13 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
     db = client.db('wsdatabase');
     app.listen(8000, function(){
         console.log('Server started');
-        console.log(db)
+        ///db.collection('BCUsers').deleteMany({});
+        db.collection('BCUsers').findOne({}, function(err, result){
+            console.log(result)
+        })
+
     })
-})
+});
 
 
 
@@ -40,26 +44,15 @@ app.get('*', (req, res) =>{
 });
 
 
-app.get('/flip', (req,res) =>{
-    //Connect to BC server to get the side of the coin
-    res.send(coinside)
-});
-
-
-app.get('/stat', (req,res) =>{
-    //Connect to BC server to get the profile statistics
-    res.send(stat)
-});
-
 
 app.post('/signup', function(req, res){
 
     password = req.body.password;
-    function returnCredentials(abcde){
+    function returnCredentials(password){
         privateKey = web3.eth.accounts.create().privateKey.substr(2)
         obj = web3.eth.accounts.privateKeyToAccount(privateKey);
         console.log(obj);
-        return {address: obj.address, privatekey: obj.privateKey}
+        return {password: password, address: obj.address, privatekey: obj.privateKey}
     }
     regdata = returnCredentials(password);
     res.send(regdata);
@@ -75,7 +68,7 @@ app.post('/signup', function(req, res){
 app.post('/signin', function(req, res){
     var logdata = req.body;
     ///console.log(logdata);
-    db.collection('BCUsers').findOne({address: logdata.address, password: logdata.password}, function(err, result){
+    db.collection('BCUsers').findOne({address: logdata.login, password: logdata.password}, function(err, result){
         console.log(result);
         if (result === null){
             return res.send('false')

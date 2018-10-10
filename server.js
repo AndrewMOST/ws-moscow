@@ -143,4 +143,12 @@ app.post('/getapps_user', function(req, res){
 });
 
 
+app.get('/apps/:id', function(req, res){
+    res.sendFile(path.join(__dirname+'/site/application.html'));
+});
+
+app.post('/get_app_data', function(req, res){
+    
+});
+
 //Check

@@ -1,4 +1,11 @@
-pragma solidity ^0.4.23;
+// solium-disable linebreak-style
+pragma solidity ^0.4.24;
+
+/*
+    Этот контракт автоматически сгенерирован
+    фреймворком Truffle и используется для
+    миграции контрактов при их изменении
+*/
 
 contract Migrations {
     address public owner;

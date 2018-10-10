@@ -7,28 +7,34 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/index.css">
+
+    <!-- Подключаем Jquery -->
     <script src="js/jquery-3.3.1.js"></script>
     <title>Орёл и Решка</title>
-    <!-- Compiled and minified CSS -->
+    <!-- Подключаем Materialize css -->
     <link rel="stylesheet" href="css/materialize.min.css">
 
   </head>
   <body>
     <div id="app">
+        <div class="container"><div class="row">
+            <!-- Блок регистрации -->
+            <div class="col s6">
+              <h4>Регистрация</h4>
+              <div class="row">
+                  <div class="input-field col s12">
+                    <input type="text" id="new-password-input">
+                    <label for="new-password-input">Autocomplete</label>
+                  </div>
+              </div>
+            </div>
 
+            <!-- Блок авторизации -->
+            <div class="col s6"></div>
+        </div></div>
     </div>
-    
   </body>
   
-    <!-- Compiled and minified JavaScript -->
+    <!-- Подключаем Materialize js -->
     <script src="js/materialize.min.js"></script>
-    <script>
-      function help(){
-        console.log('asdasd');
-      }
-      function login(login, password){
-          console.log(login, password);
-          $.post('/aaaaaa', {login: login, password: password})
-      }
-    </script>
 </html>

@@ -35,7 +35,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
 
 
 app.get('*', (req, res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+    res.sendFile(path.join(__dirname+'/site/index.html'));
 });
 
 

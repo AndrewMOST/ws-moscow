@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="css/icon.css">
+
+    <!-- Подключаем Jquery -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <title>Служба поддержки</title>
+    <!-- Подключаем Materialize css -->
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+  </head>
+  <body>
+    <div id="app">
+        <div class="container"><div class="card"><div class="card-content">
+          <h4>Мои заявки</h4>
+          <ul id="tabs-swipe" class="tabs tabs-fixed-width tab-demo z-depth-1 tabs-custom">
+              <li class="tab col s6"><a class="active" href="#opened">Открытые</a></li>
+              <li class="tab col s6"><a href="#closed">Закрытые</a></li>
+          </ul>
+          <div id="opened" class="col s12">
+              <ul class="collection with-header">
+                  <a class="collection-item" href="apps/1"> 
+                    <div>
+                      What does the fox say?
+                    </div>
+                  </a>
+              </ul>
+          </div>
+          <div id="closed" class="col s12">
+              <ul class="collection with-header">
+                  <a class="collection-item"href="apps/2">
+                      <div>
+                        How can I solve it?
+                      </div>
+                  </a>
+              </ul>
+          </div>
+
+        </div></div></div>
+    </div>
+  </body>
+
+  <script>
+      $(document).ready(function(){
+        $('.tabs').tabs({swipeable:true, duration: 200});
+      });
+  </script>
+  <script src="js/userscript.js"></script>
+  <!-- Подключаем Materialize js -->
+  <script src="js/materialize.min.js"></script>
+</html>

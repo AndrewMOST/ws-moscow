@@ -106,12 +106,37 @@ app.post('/createapp', function(req, res){
 //Ищет заявки в базе по ключу пользователя, отправившего запрос.
 app.post('/getapps_user', function(req, res){
     appdata = req.body;
-    db.collection('appscollection').findOne({login: appdata.login, status: '1'}, function(err, result){
-        if (err){
-            return console.log(err)
+    function createresponse(){
+        var applic = {};
+        db.collection('appscollection').findOne({login: appdata.login, status: '1'}, function(err, result){
+            if (err){
+                return console.log(err)
+            }
+            console.log(result);
+            applic["opened"] = result;
+        })
+        db.collection('appscollection').findOne({login: appdata.login, status: '0'}, function(err, result){
+            if (err){
+                return console.log(err)
+            }
+            applic["closed"] = result;
+        })
+        return applic;
+    };
+    res.send(
+        {
+        "closed": [{ _id: '5bbdfbe5b9251f3340a372f4',
+            login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
+            question: 'Почему моя стиральная машина не работает?',
+            email: 'sas@sos.sis',
+            status: '1' }], 
+        "opened": [{ _id: '5bbdfbd2b9251f3340a372f3',
+            login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
+            question: 'Почему мой телефон не работает?',
+            email: 'sas@sos.sis',
+            status: '0' }]
         }
-        res.send(result)
-    })
+    );
 });
 
 

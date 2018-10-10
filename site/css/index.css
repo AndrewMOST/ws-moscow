@@ -56,3 +56,25 @@ input{
 .card{
     background-color: #37474f;
 }
+
+.tabs.tabs-custom .tab a:hover, .tabs.tabs-custom .tab a.active{
+    color: #ffb74d;
+}
+.tabs.tabs-custom, .collection a.collection-item{
+    background-color: #263238;
+    border: none;
+}
+.collection, .collection a.collection-item {
+    color:white;
+    border: none;
+}
+
+.tabs.tabs-custom .tab a, .tabs.tabs-custom .tab.disabled a, .tabs.tabs-custom .tab.disabled a:hover {
+    color: rgba(255,255,255,0.7);
+}
+.tabs .tab a:focus, .tabs .tab a:focus.active, .collection a.collection-item:hover{
+    background-color: rgba(178, 246, 227, 0.2) !important;
+}
+.tabs .indicator {
+    background-color: #ffb74d;
+}

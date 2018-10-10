@@ -89,16 +89,19 @@ app.get('/moder', (req, res) =>{
     res.sendFile(path.join(__dirname+'/site/mainm.html'));
 });
 
+app.get('/createapp', function(req, res){
+    res.sendFile(path.join(__dirname+'/site/createapplication.html'));
+});
 
 //Post-запрос на создание новой заявки,сохраняющий JSON заявки в коллекцию заявок базы данных
 app.post('/createapp', function(req, res){
     appdata = req.body;
+    json_data = {title: appdata.title, name: appdata.name, phone: appdata.phone, status: 0, id_user: localStorage.login, id_moder: ''}
     db.collection('appscollection').insertOne(appdata, function(err, result){
         if (err){
             return console.log(err)
         }
-        res.sendStatus(200);
-        //res.sendFile(path.join(__dirname+'/site/mainu.html'))
+        res.send('<script>document.location = "/user"</script>');
     })
 });
 

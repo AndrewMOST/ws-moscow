@@ -8,10 +8,12 @@ function getapplications(){
     $.post('/getapps_user', {login: window.localStorage.login})
         .done(function (data){
             console.log(data);
-            for i in data{
-                rez =   
-            }
+            data.opened.forEach(element => {
+                $('#opened > ul').prepend(`<a class="collection-item" href="apps/${element.id}"><div>${element.question}</div></a>`);
+            });
+            data.closed.forEach(element => {
+                $('#closed > ul').prepend(`<a class="collection-item" href="apps/${element.id}"><div>${element.question}</div></a>`);
+            });
         });
-
-    $('#datablock').html('');
 }
+getapplications();

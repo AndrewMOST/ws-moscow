@@ -6,6 +6,9 @@ html, body{
     background:#263238;
     color:white;
 }
+#app{
+    margin-top: 3rem;
+}
 input{
     color:white;
 }
@@ -18,6 +21,10 @@ input{
 }
 .btn:active, .btn:focus, .btn:visited{
     background-color:#64b5f6;
+}
+
+.invalid ~ label, .invalid ~ label.active{
+    color: #ffb74d !important;
 }
 
 /* label color */

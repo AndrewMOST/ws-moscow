@@ -27,7 +27,7 @@
                     <input type="text" id="new-password-input" type="text" class="validate">
                     <label for="new-password-input">Ваш пароль</label>
                   </div>
-                  <div id="datablock" style="display:none"></div>
+                  <div id="datablock"></div>
               </div>
               <a class="waves-effect waves-light btn" href="javascript:register()">Зарегистрироваться</a>
             </div></div></div>
@@ -45,27 +45,14 @@
                       <label for="password">Пароль</label>
                   </div>
               </div>
-              <a class="waves-effect waves-light btn" href="javascript:login()">Войти</a>
+              <a class="waves-effect waves-light btn" onClick="login" href="javascript:login()">Войти</a>
             </div></div></div>
 
         </div></div>
     </div>
   </body>
-    <script>
-    function register(){
-      password = $('#new-password-input').val();
-      $.post('/signin', {password:password}).done((data) => {$('#datablock').html(data)});
-    }
-    function login(){
-      login = $('#login').val();
-      password = $('#password').val();
-      $.post('/signin', {login:login, password:password}).done((data) => {
-        if (data === false){
-          $('#login, #password').addClass('invalid');
-        }
-      });
-    }
-    </script>
+    <script src="js/index.js"></script>
+    
     <!-- Подключаем Materialize js -->
     <script src="js/materialize.min.js"></script>
 </html>

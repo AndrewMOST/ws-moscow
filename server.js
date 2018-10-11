@@ -192,20 +192,11 @@ app.get('/user/apps/:id', function(req, res){
 });
 
 app.post('/get_app_data', function(req, res){
-    appdata = req.body;
-
-    // db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
-    //     console.log(result);
-    //     if (err){
-    //         return console.log(err)
-    //     }
-    //     if (result.login !== appdata.login && result.moderator !== appdata.login){
-    //         res.send('false');
-    //         return false;
-    //     }
-    //     res.send(result);
-    // })
-    res.send('false');
+    var login = req.body.login;
+    var appId = req.body.id;
+    contract.methods.getAppData(appId).call({from: login}).then(function(result) {
+        res.send(result);
+    });
 });
 
 app.post('/check_if_moder', function(req, res){

@@ -32,21 +32,21 @@ input{
     color: white;
 }
 /* label focus color */
-.input-field input[type=text]:focus + label {
+.input-field input[type=text]:focus + label, .input-field input[type=email]:focus + label, .input-field input[type=number]:focus + label{
     color: white !important;
 }
 /* label underline focus color */
-.input-field input[type=text]:focus {
+.input-field input[type=text]:focus, .input-field input[type=email]:focus, .input-field input[type=number]:focus{
     border-bottom: 1px solid #bbdefb !important;
     box-shadow: 0 1px 0 0 #bbdefb !important;
   }
 /* valid color */
-.input-field input[type=text].valid {
+.input-field input[type=text].valid, .input-field input[type=email].valid, .input-field input[type=number].valid{
     border-bottom: 1px solid #c8e6c9 !important;
     box-shadow: 0 1px 0 0 #c8e6c9 !important;
 }
 /* invalid color */
-.input-field input[type=text].invalid {
+.input-field input[type=text].invalid, .input-field input[type=email].invalid, .input-field input[type=number].invalid {
     border-bottom: 1px solid #ffb74d !important;
     box-shadow: 0 1px 0 0 #ffb74d !important;
 }
@@ -77,4 +77,15 @@ input{
 }
 .tabs .indicator {
     background-color: #ffb74d;
+}
+
+textarea.materialize-textarea:focus:not([read-only]){
+    border-bottom: 1px solid #ffb74d !important;
+    box-shadow: 0 1px 0 0 #ffb74d !important;
+}
+textarea{
+    color:white !important;
+}
+textarea.materialize-textarea:focus:not([read-only]) + label{
+    color:white !important;
 }

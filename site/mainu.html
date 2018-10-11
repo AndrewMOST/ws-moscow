@@ -23,24 +23,17 @@
               <li class="tab col s6"><a class="active" href="#opened">Открытые</a></li>
               <li class="tab col s6"><a href="#closed">Закрытые</a></li>
           </ul>
+          <!-- Открытые заявки -->
           <div id="opened" class="col s12">
-              <ul class="collection with-header">
-                  <a class="collection-item" href="apps/1"> 
-                    <div>
-                      What does the fox say?
-                    </div>
-                  </a>
-              </ul>
+              <ul class="collection with-header"></ul>
           </div>
+
+          <!-- Закрытые заявки -->
           <div id="closed" class="col s12">
-              <ul class="collection with-header">
-                  <a class="collection-item"href="apps/2">
-                      <div>
-                        How can I solve it?
-                      </div>
-                  </a>
-              </ul>
+              <ul class="collection with-header"></ul>
           </div>
+          
+          <a id="menu" class="waves-effect waves-light btn btn-large btn-floating right" href="/createapp"><i class="material-icons">add</i></a>
 
         </div></div></div>
     </div>
@@ -52,6 +45,7 @@
       });
   </script>
   <script src="js/userscript.js"></script>
+  <script>getapplications();</script>
   <!-- Подключаем Materialize js -->
   <script src="js/materialize.min.js"></script>
 </html>

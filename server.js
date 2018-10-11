@@ -89,16 +89,19 @@ app.get('/moder', (req, res) =>{
     res.sendFile(path.join(__dirname+'/site/mainm.html'));
 });
 
+app.get('/createapp', function(req, res){
+    res.sendFile(path.join(__dirname+'/site/createapplication.html'));
+});
 
 //Post-запрос на создание новой заявки,сохраняющий JSON заявки в коллекцию заявок базы данных
 app.post('/createapp', function(req, res){
     appdata = req.body;
+    json_data = {title: appdata.title, name: appdata.name, phone: appdata.phone, status: 0, id_user: localStorage.login, id_moder: ''}
     db.collection('appscollection').insertOne(appdata, function(err, result){
         if (err){
             return console.log(err)
         }
-        res.sendStatus(200);
-        //res.sendFile(path.join(__dirname+'/site/mainu.html'))
+        res.send('<script>document.location = "/user"</script>');
     })
 });
 
@@ -107,13 +110,38 @@ app.post('/createapp', function(req, res){
 app.post('/getapps_user', function(req, res){
     appdata = req.body;
     applics = []
-    db.collection('appscollection').findOne({login: appdata.login, status: '1'}, function(err, result){
-        if (err){
-            return console.log(err)
-        }
-        applics.push(result);
-        console.log('your applications are: '+applics);
-    })
+    // function createresponse(){
+    //     var applic = {};
+    //     db.collection('appscollection').findOne({login: appdata.login, status: '1'}, function(err, result){
+    //         if (err){
+    //             return console.log(err)
+    //         }
+    //         console.log(result);
+    //         applic["opened"] = result;
+    //     })
+    //     db.collection('appscollection').findOne({login: appdata.login, status: '0'}, function(err, result){
+    //         if (err){
+    //             return console.log(err)
+    //         }
+    //         applic["closed"] = result;
+    //     })
+    //     return applic;
+    // };
+    res.send(
+        {
+        "closed": [{ _id: '5bbdfbe5b9251f3340a372f4',
+            login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
+            question: 'Почему моя стиральная машина не работает?',
+            email: 'sas@sos.sis',
+            status: '1', id: 0 }], 
+        "opened": [{ _id: '5bbdfbd2b9251f3340a372f3',
+            login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
+            question: 'Почему мой телефон не работает?',
+            email: 'sas@sos.sis',
+            status: '0', id: 1 }]
+        });
+    // applics.push(result);
+    // console.log('your applications are: '+applics);
 
 });
 
@@ -123,5 +151,23 @@ app.post('/getchat', function(req, res){
     res.send(chat);
 });
 
+app.get('/user/apps/:id', function(req, res){
+    res.sendFile(path.join(__dirname+'/site/application.html'));
+});
+
+app.post('/get_app_data', function(req, res){
+    appdata = req.body;
+
+    db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
+        console.log(result);
+        if (err){
+            return console.log(err)
+        }
+        if (result.login !== appdata.login){
+            res.send('false');
+        }
+        res.send(result);
+    })
+});
 
 //Check

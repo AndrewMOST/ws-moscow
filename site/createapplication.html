@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="css/icon.css">
+
+    <!-- Подключаем Jquery -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <title>Служба поддержки</title>
+    <!-- Подключаем Materialize css -->
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+  </head>
+  <body>
+    <div id="app">
+        <div class="container"><div class="card"><div class="card-content">
+          <form method="POST" class="row">
+            <a href="/user">Вернуться обратно</a>
+
+            <h4>Создать заявку</h4>
+            <div class="input-field col s12">
+                <input type="text" id="title" name="title" class="validate" required>
+                <label for="title">Название заявки</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="text" id="name" name="name" class="validate" required>
+                <label for="name">Ваше имя</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="email" id="email" name="email" class="validate" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-field col s12">
+                <input type="number" id="phone" name="phone" class="validate" required>
+                <label for="phone">Phone number</label>
+            </div>
+            <div class="input-field col s12">
+                <textarea id="text" class="materialize-textarea" name="text" required></textarea>
+                <label for="text">Текст заявки</label>
+            </div>
+            <div class="input-field col s12"></div>
+              <button class="btn waves-effect waves-light" type="submit">
+                  Отправить заявку <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </form>
+          
+        </div></div></div>
+    </div>
+  </body>
+
+  <script>
+      $(document).ready(function(){
+        $('.tabs').tabs({swipeable:true, duration: 200});
+      });
+  </script>
+  <!-- Подключаем Materialize js -->
+  <script src="js/materialize.min.js"></script>
+</html>

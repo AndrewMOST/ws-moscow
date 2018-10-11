@@ -70,14 +70,17 @@
         </div> 
 
         <!-- Оценка -->
-        <div class="col s12 l6">   
+        <div class="col s12 l6" id="service">   
             <div class="card"><div class="card-content">
                 <H4>Оцените обслуживание!</H4>
                 <p class="range-field">
-                    <input type="range" id="mark" min="0" max="5" value="5"/>
+                    <input type="range" id="rating" min="0" max="5" value="5"/>
                 </p>
                 <p>Вашу проблему решили?</p>
-                
+
+                <button class="btn waves-effect waves-light right " onClick="close_app()">
+                    Закрыть заявку<i class="material-icons left">done_all</i>
+                </button>
             </div></div>
         </div>
     
@@ -94,8 +97,6 @@
         $(document).ready(function(){
             $('label').addClass('active');
             get_app_data();
-            get_chat();
-            setInterval('get_chat()', 2000);
         });
     </script>
 </html>

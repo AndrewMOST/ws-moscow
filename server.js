@@ -189,6 +189,11 @@ app.get('/user/apps/:id', function(req, res){
     res.sendFile(path.join(__dirname+'/site/application.html'));
 });
 
+app.post('/user/apps/:id', function(req, res){
+    console.log(req.body);
+    res.send(`<script>document.location = '/user/apps/${req.params.id}'</script>`);
+});
+
 app.post('/get_app_data', function(req, res){
     var login = req.body.login;
     var appId = req.body.id;

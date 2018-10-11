@@ -53,6 +53,7 @@ function get_chat(){
 function send_message(message = ''){
     message = $('#message').val();
     if (message === ''){
+        $('#message').addClass('invalid');
         return false;
     }
 

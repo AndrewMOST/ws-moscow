@@ -13,9 +13,9 @@ function register(password=false){
     // Запрос к серверу на создание пользователя с данным паролем
     $.post('/signup', {password:password})
         .done(function (data){
-            window.cred = `Login: ${data.address}<br>Password: ${password}`; 
+            cred = `Login: ${data.address}<br>Password: ${password}<br>Возможно на кошельке нет эфира!`; 
             $('#datablock').html(cred); 
-            return JSON.stringify(window.cred.replace('<br>', '\n'));
+            return JSON.stringify(cred.replace('<br>', '\n'));
         });
     
 }
@@ -31,7 +31,7 @@ function login(login=false, password=false){
         $('#login, #password').addClass('invalid');
         return false;
     }
-    
+
     // Запрос к серверу на вход
     $.post('/signin', {login:login, password:password}).done(
         function (data){

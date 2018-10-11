@@ -21,36 +21,13 @@
         <div class="container"><div class="row">
 
         <div class="card"><div class="card-content">
-            <form method="POST" class="row">
+            <div class="row">
                 <a href="/user" class="waves-effect btn-flat white-text"><i class="material-icons left">keyboard_arrow_left</i>Вернуться обратно</a>
-                
-                <h4>Ваша заявка</h4>
-                <div class="input-field col s12">
-                    <input type="text" id="title" name="title" class="validate" required>
-                    <label for="title">Название заявки</label>
-                </div>
-                <div class="input-field col s12">
-                    <input type="text" id="name" name="name" class="validate" required>
-                    <label for="name">Ваше имя</label>
-                </div>
-                <div class="input-field col s12">
-                    <input type="email" id="email" name="email" class="validate" required>
-                    <label for="email">Email</label>
-                </div>
-                <div class="input-field col s12">
-                    <input type="number" id="phone" name="phone" class="validate" required>
-                    <label for="phone">Phone number</label>
-                </div>
-                <div class="input-field col s12">
-                    <textarea id="text" class="materialize-textarea" name="text" required></textarea>
-                    <label for="text">Текст заявки</label>
-                </div>
-                <div class="input-field col s12"></div>
-                <button class="btn waves-effect waves-light right" type="submit">
-                    Сохранить заявку <i class="material-icons right">save</i>
-                </button>
-                </div>
-            </form>
+                <h4>Заявка</h4>
+                <p id="data"></p>
+                <h5 id="title"></h5>
+                <p id="text"></p>
+            </div>
         </div></div>
     
         <div class="card"><div class="card-content">
@@ -93,7 +70,7 @@
     </div>
   </body>
 
-    <script src="/js/userscript.js"></script>
+    <script src="/js/moderscript.js"></script>
     <!-- Подключаем Materialize js -->
     <script src="/js/materialize.min.js"></script>
 

@@ -34,7 +34,7 @@ function get_app_data(){
             $('#email').val(data["2"]);
             $('#text').val(data["5"]);
             $('#phone').val(data["3"]);
-
+            $('input, textarea').addClass('disabled');
             if (data[0] === false){
                 setInterval('get_chat()', 1000);
             }

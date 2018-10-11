@@ -7,7 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 var db;
 const url = 'mongodb://169.254.3.88:27017/mydb';
 
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://169.254.225.127:8545"));
 var contract = new web3.eth.Contract(JSON.parse(bcData.abi), bcData.techSupportAddress);
 
 const path = require('path');

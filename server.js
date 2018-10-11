@@ -26,8 +26,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
     app.listen(5000, function(){
         console.log('Server started');
 
-        // db.collection('BCUsers').deleteMany({});
-        // db.collection('appscollection').deleteMany({});
+        //db.collection('appscollection').deleteMany({});
         db.collection('BCUsers').find({}).toArray(function(err, result){
             console.log(result)
         });

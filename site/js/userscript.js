@@ -29,7 +29,7 @@ function get_app_data(){
             $('#email').val(data["2"]);
             $('#text').val(data["5"]);
             $('#phone').val(data["3"]);
-            
+
             if (data[0] === false){
                 setInterval('get_chat()', 1000);
             }
@@ -37,7 +37,7 @@ function get_app_data(){
                 get_chat()
                 $('#service, .input-chat, button').remove();
             }
-            
+
         });
 }
 
@@ -52,7 +52,7 @@ function get_chat(){
             html = '';
             for (i in data){
                 element = data[i];
-                if (element.sender == true){name = 'Я'; or = 'right'}
+                if (element.sender == false){name = 'Я'; or = 'right'}
                 else{name = 'Техподдержка'; or = 'left'}
                 html += `<div class="text-message card-panel ${or}-message">
                             <span>${name}</span>

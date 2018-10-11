@@ -43,6 +43,68 @@ exports.abi = JSON.stringify([
     "constant": true,
     "inputs": [
       {
+        "name": "_appId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAppData",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_appId",
+        "type": "uint256"
+      },
+      {
+        "name": "_lastMessage",
+        "type": "uint32"
+      }
+    ],
+    "name": "getChatMessage",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
         "name": "",
         "type": "address"
       }
@@ -107,6 +169,25 @@ exports.abi = JSON.stringify([
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_appId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getChatData",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {

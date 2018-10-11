@@ -2,25 +2,6 @@
 pragma solidity ^0.4.24;
 
 contract Application {
-    // Структура, репрезентующая сообщение
-    // в чате между пользователем и модератором
-    struct Message {
-        // Отправитель
-        // 0 - пользователь, 1 - админ
-        bool sender;
-        // Текст сообщения
-        string text;
-    }
-
-    // Структура, репрезентующая чат
-    // между пользователем и модератором
-    struct Chat {
-        // Номер последнего сообщения
-        uint32 lastMessage;
-        // Словарь всех сообщений
-        mapping(uint32 => Message) messages;
-    }
-
     // Структура, репрезентующая данные,
     // хранящиеся в заявке
     struct ApplicationData {
@@ -48,8 +29,6 @@ contract Application {
         string title;
         // Текст заявки
         string text;
-        // Чат данной заявки
-        Chat chat;
     }
 
     // Словарь, хранящий все заявки системы
@@ -57,7 +36,41 @@ contract Application {
     // Номер последней поданной заявки
     uint256 public applicationNum;
 
+    // Хранение всех чатов системы
+
+    // Номер последнего сообщения
+    mapping(uint256 => uint32) lastMessage;
+    // Словарь всех сообщений
+    mapping(uint256 => mapping (uint32 => string)) messages;
+    // Словарь отправителей
+    mapping(uint256 => mapping(uint32 => bool)) senders;
+
+    // Получаем название заявки
     function getAppTitle(uint256 _appId) public view returns(string _title){
         _title = applications[_appId].title;
+    }
+
+    // Получаем информацию о заявке
+    function getAppData(uint256 _appId) public view returns(string, string, string, string, string){
+        ApplicationData memory _app = applications[_appId];
+        return(_app.name, _app.email, _app.phone, _app.title, _app.text);
+    }
+
+    // Получаем данные чата заявки
+    function getChatData(uint256 _appId) public view returns(uint32) {
+        // Возьмем нужную заявку
+        ApplicationData memory _app = applications[_appId];
+        // Смотреть могут только участники заявки
+        require((_app.user == msg.sender)||(_app.moderator == msg.sender), "The application is not yours!");
+        return lastMessage[_appId];
+    }
+
+    // Получаем сообщение заявки
+    function getChatMessage(uint256 _appId, uint32 _lastMessage) public view returns(bool, string) {
+        // Возьмем нужную заявку
+        ApplicationData memory _app = applications[_appId];
+        // Смотреть могут только участники заявки
+        require((_app.user == msg.sender)||(_app.moderator == msg.sender), "The application is not yours!");
+        return (senders[_appId][_lastMessage], messages[_appId][_lastMessage]);
     }
 }

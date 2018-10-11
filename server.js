@@ -131,48 +131,48 @@ app.post('/createapp', function(req, res){
 //Post-запрос на получение информации об оставленных пользователем заявках.
 //Ищет заявки в базе по ключу пользователя, отправившего запрос.
 app.post('/getapps_user', function(req, res){
-    appdata = req.body;
-    applics = []
-    // function createresponse(){
-    //     var applic = {};
-    //     db.collection('appscollection').findOne({login: appdata.login, status: '1'}, function(err, result){
-    //         if (err){
-    //             return console.log(err)
-    //         }
-    //         console.log(result);
-    //         applic["opened"] = result;
-    //     })
-    //     db.collection('appscollection').findOne({login: appdata.login, status: '0'}, function(err, result){
-    //         if (err){
-    //             return console.log(err)
-    //         }
-    //         applic["closed"] = result;
-    //     })
-    //     return applic;
-    // };
-    res.send(
-        {
-        "closed": [{ _id: '5bbdfbe5b9251f3340a372f4',
-            login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
-            question: 'Почему моя стиральная машина не работает?',
-            email: 'sas@sos.sis',
-            status: '1', id: 0 }],
-        "opened": [{ _id: '5bbdfbd2b9251f3340a372f3',
-            login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
-            question: 'Почему мой телефон не работает?',
-            email: 'sas@sos.sis',
-            status: '0', id: 1 }]
-        });
-    // applics.push(result);
-    // console.log('your applications are: '+applics);
+    var login = req.body.login;
+    db.collection('appscollection').find({login: login}, function(error, result) { // TODO: разобраться с курсорами
+        result.count(function(res){
+            console.log(res);
+        })
+    });
+});
 
+app.post('/send_message', function(req, res){
+    var id = req.body.id;
+    var login = req.body.login;
+    var text = req.body.text;
+
+    contract.methods.sendMessage(id, text).send({from: login}).then(function(receipt){
+        console.log(receipt.events);
+        res.sendStatus(200);
+    });
 });
 
 app.post('/getchat', function(req, res){
-    appdata = req.body;
-    //Send a request and get the current chat from BC!!
-    chat = [{num: 0, sender: 0, text: "Почему моя стиральная машина не работает?"}, {num: 1, sender: 1, text: "Хз вообще"}, {num: 2, sender: 0, text: "Это техподдержка?"}, {num: 3, sender: 1, text: "Нет, это прачечная"}, {num: 4, sender: 0, text: "Вы что там, охренели что ли!?"}];
-    res.send(chat);
+    var id = req.body.id;
+    var login = req.body.login;
+    chat = {};
+    contract.methods.getChatData(id).call({from: login}).then(function(result) {
+        var promises = [];
+        for(var i = 0; i < result; ++i){
+            promises.push(
+                new Promise(function(resolve, reject){
+                     resolve(contract.methods.getChatMessage(id, i).call({from:login}));
+                })
+            );
+        }
+        Promise.all(promises).then(function(values){
+            for(var i = 0; i < result; ++i){
+                chat[i] = {
+                    sender: values[i]['0'],
+                    text: values[i]['1']
+                };
+            }
+            res.send(chat);
+        })
+    });
 });
 
 app.get('/user/apps/:id', function(req, res){

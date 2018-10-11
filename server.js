@@ -216,11 +216,29 @@ app.get('/moder/apps/:id', function(req, res){
 
 app.post('/user/apps/:id', function(req, res){
     console.log(req.body);
-    var id = req.params.id;
+    // Берем нужные данныеы из JSON'а запроса
+    appdata = req.body;
+    // Отправляем транзакцию в блокчейн
+    contract.methods.editApplication(
+        req.params.id,
+        appdata.name,
+        appdata.email,
+        appdata.phone,
+        appdata.title,
+        appdata.text).send(
+        {from: appdata.login, gas: 4000000}).then(function(receipt) {
+            // Получаем результаты из блокчейна
+            var result = receipt.events.ApplicationEdited.returnValues;
 
-    db.collection('appscollection').findOneAndUpdate({id: id.toString()}, {$set: req.body});
-
-    res.send(`<script>document.location = '/user/apps/${req.params.id}'</script>`);
+            // Записываем мета-данные в MongoDB
+            var meta = {
+                "login": appdata.login,
+                "id": result._appId,
+                "moderator": "0x0",
+                "status": 0
+            };
+            res.send(`<script>document.location = '/user/apps/${req.params.id}'</script>`);
+        });
 });
 
 // Post-запрос для получения данных о заявке

@@ -131,10 +131,8 @@ app.post('/createapp', function(req, res){
 //Ищет заявки в базе по ключу пользователя, отправившего запрос.
 app.post('/getapps_user', function(req, res){
     var login = req.body.login;
-    db.collection('appscollection').find({login: login}, function(error, result) { // TODO: разобраться с курсорами
-        result.count(function(res){
-            console.log(res);
-        })
+    db.collection('appscollection').find({login: login}).toArray(function(error, result) { // TODO: разобраться с курсорами
+        res.send(result);
     });
 });
 

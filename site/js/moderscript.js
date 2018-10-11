@@ -34,14 +34,6 @@ function getapplications(){
 
     
 }
-
-function take_app(id){
-    $.post('/take_app', {moderator: window.localStorage.login, id: id}).done(
-        (data) => {
-            getapplications();
-        }
-    )
-}
 // Получить данные заявки
 function get_app_data(){
     $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/moder/apps/', '')})

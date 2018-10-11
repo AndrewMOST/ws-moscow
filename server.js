@@ -148,6 +148,7 @@ app.post('/getapps_user', function(req, res){
 app.post('/getchat', function(req, res){
     appdata = req.body;
     //Send a request and get the current chat from BC!!
+    chat = [{num: 0, sender: 0, text: "Почему моя стиральная машина не работает?"}, {num: 1, sender: 1, text: "Хз вообще"}, {num: 2, sender: 0, text: "Это техподдержка?"}, {num: 3, sender: 1, text: "Нет, это прачечная"}, {num: 4, sender: 0, text: "Вы что там, охренели что ли!?"}];
     res.send(chat);
 });
 
@@ -166,8 +167,13 @@ app.post('/get_app_data', function(req, res){
         if (result.login !== appdata.login){
             res.send('false');
         }
+        //Instead of sending result you need to ask BC for info by the app ID
         res.send(result);
     })
 });
+
+
+
+
 
 //Check

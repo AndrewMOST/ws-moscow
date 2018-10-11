@@ -7,9 +7,11 @@ function help(){
 function getapplications(){
     $.post('/getapps_moder', {login: window.localStorage.login})
         .done(function (data){
-            console.log(data);
+            $('#available > ul, #taken > ul').html('');
+            if (data.available.length === 0){$('#available > ul').html('<p>Пока что нет заявок');}
+            if (data.taken.length === 0){$('#taken > ul').html('<p>Вы не взяли ни одной заявки');}
             data.available.forEach(element => {
-                $('#available > ul').prepend(`<li class="collection-item"><div>${element.question}<a href="javascript:take_app(${element.id})" class="secondary-content"><i class="material-icons">add</i></a></div></li>`);
+                $('#available > ul').prepend(`<li class="collection-item"><div>${element.question}<a href="javascript:take_app(${element.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
             });
             data.taken.forEach(element => {
                 $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${element.id}"><div>${element.question}</div></a>`);
@@ -19,7 +21,7 @@ function getapplications(){
 function take_app(id){
     $.post('/take_app', {moderator: window.localStorage.login, id: id}).done(
         (data) => {
-            console.log(data);
+            getapplications();
         }
     )
 }

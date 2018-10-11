@@ -34,11 +34,11 @@ function get_app_data(){
             $('#email').val(data["2"]);
             $('#text').val(data["5"]);
             $('#phone').val(data["3"]);
-
             if (data[0] === false){
                 setInterval('get_chat()', 1000);
             }
             else{
+                $('input, textarea').attr('disabled', "true");
                 get_chat()
                 $('#service, .input-chat, button').remove();
             }

@@ -15,7 +15,9 @@ function getapplications(){
             $('#available > ul').html('');
             avalible = data;
             avalible.forEach(el => {
-                $('#available > ul').prepend(`<li class="collection-item"><div>${el["4"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
+                if (el["0"] !== true){
+                    $('#available > ul').prepend(`<li class="collection-item"><div>${el["4"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
+                }
             })
             if (available.length === 0){$('#available > ul').html('<p>Пока что нет заявок');}
         }).then(function(){
@@ -53,7 +55,7 @@ function get_app_data(){
             )
 
             if (data[0] === false){
-                setInterval('get_app_data()', 1000);
+                setInterval('get_app_data()', 5000);
                 setInterval('get_chat()', 1000);
             }
             else{

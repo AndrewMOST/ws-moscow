@@ -133,14 +133,19 @@ app.post('/getapps_user', function(req, res){
     var login = req.body.login;
     db.collection('appscollection').find({login: login}).toArray(function(error, result) { // TODO: разобраться с курсорами
         promises = [];
+        ids = [];
         result.forEach(element => {
             promises.push(
                 new Promise(function(resolve, reject) {
                     resolve(contract.methods.getAppData(element.id).call({from: login}));
                 })
             );
+            ids.push(element.id);
         });
         Promise.all(promises).then(function(values){
+            for(i = 0; i < ids.length; ++i){
+                values[i]['id'] = ids[i];
+            }
             res.send(values);
         });
     });

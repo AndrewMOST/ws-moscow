@@ -211,6 +211,10 @@ app.get('/user/apps/:id', function(req, res){
     res.sendFile(path.join(__dirname+'/site/application.html'));
 });
 
+app.get('/moder/apps/:id', function(req, res){
+    res.sendFile(path.join(__dirname+'/site/application_moder.html'));
+});
+
 app.post('/user/apps/:id', function(req, res){
     console.log(req.body);
     var id = req.params.id;
@@ -249,7 +253,7 @@ app.post('/getapps_moderator_available', function(req, res){
     var moderator = req.body.moderator;
     // Получение всех заявок, принятых модератором
     db.collection('appscollection').find({moderator: '0x0'}).toArray(function(error, result) {
-        console.log(result);
+        // console.log(result);
         promises = [];
         ids = [];
 
@@ -258,16 +262,18 @@ app.post('/getapps_moderator_available', function(req, res){
         result.forEach(element => {
             promises.push(
                 new Promise(function(resolve, reject) {
+                    console.log(element);
+                    ids.push(element.id);
                     resolve(contract.methods.getAppData(element.id).call({from: moderator}));
                 })
             );
-            ids.push(element.id);
         });
         // Разрешение Promise'ов и получение данных из блокчейна
         Promise.all(promises).then(function(values){
             for(i = 0; i < ids.length; ++i){
                 values[i]['id'] = ids[i];
             }
+            console.log(ids);
             res.send(values);
         });
     });

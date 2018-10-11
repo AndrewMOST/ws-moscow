@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="stylesheet" href="css/icon.css">
-
     <!-- Подключаем Jquery -->
     <script src="js/jquery-3.3.1.js"></script>
     <title>Служба поддержки</title>
@@ -20,7 +19,7 @@
         <div class="container"><div class="card"><div class="card-content">
           <form method="POST" class="row">
             <a href="/user" class="waves-effect btn-flat white-text"><i class="material-icons left">keyboard_arrow_left</i>Вернуться обратно</a>
-            
+
             <input type="hidden" name="login" id="login">
             <h4>Создать заявку</h4>
             <div class="input-field col s12">
@@ -54,6 +53,8 @@
     </div>
   </body>
 
+    <!-- Подключаем Jquery -->
+    <script src="js/jquery-3.3.1.js"></script>
   <script>
       $(document).ready(function(){
         $('#login').val(window.localStorage.login);

@@ -86,8 +86,8 @@ contract TechSupport is Moderator, Application, Events {
         require((_app.user == msg.sender)||(_app.moderator == msg.sender), "The application is not yours!");
 
         // Создадим объект сообщения и поместим его в ApplicationData
-        _app.chat.messages[_app.chat.lastMessage].sender = Moderator.moderators[msg.sender];
-        _app.chat.messages[_app.chat.lastMessage++].text = _text;
+        senders[_appId][lastMessage[_appId]] = moderators[msg.sender];
+        messages[_appId][lastMessage[_appId]++] = _text;
 
         // Вызываем событие отправки сообщения
         emit MessageSent(_appId);

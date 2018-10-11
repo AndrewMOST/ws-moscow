@@ -57,6 +57,7 @@ app.post('/signup', function(req, res){
     console.log(regdata);
     res.send(regdata);
 
+    // TODO: добавить хеширование паролей!!
     db.collection('BCUsers').insertOne(regdata, function(err, result){
         //Сохранение данных пользователя в базу
         if (err){
@@ -149,22 +150,30 @@ app.post('/getapps_user', function(req, res){
     });
 });
 
+// Post-запрос для отправки сообщений в чат
 app.post('/send_message', function(req, res){
+    // Получение данных из тела запроса
     var id = req.body.id;
     var login = req.body.login;
     var text = req.body.text;
 
+    // Обращение к блокчейну
     contract.methods.sendMessage(id, text).send({from: login}).then(function(receipt){
         console.log(receipt.events);
         res.sendStatus(200);
     });
 });
 
+// Post-запрос для получения чата
 app.post('/get_chat', function(req, res){
+    // Получение данных из запроса
     var id = req.body.id;
     var login = req.body.login;
     chat = {};
+
+    // Получение количества сообщений в чате
     contract.methods.getChatData(id).call({from: login}).then(function(result) {
+        // Создание списка Promise'ов для получения сообщений
         var promises = [];
         for(var i = 0; i < result; ++i){
             promises.push(
@@ -173,6 +182,8 @@ app.post('/get_chat', function(req, res){
                 })
             );
         }
+        // Ожидание всех Promise'ов и сохранение
+        // результатов их работы
         Promise.all(promises).then(function(values){
             for(var i = 0; i < result; ++i){
                 chat[i] = {
@@ -180,6 +191,7 @@ app.post('/get_chat', function(req, res){
                     text: values[i]['1']
                 };
             }
+            // Отправка данных на клиент
             res.send(chat);
         })
     });
@@ -194,15 +206,19 @@ app.post('/user/apps/:id', function(req, res){
     res.send(`<script>document.location = '/user/apps/${req.params.id}'</script>`);
 });
 
+// Post-запрос для получения данных о заявке
 app.post('/get_app_data', function(req, res){
+    // Чтение тела запроса
     var login = req.body.login;
     var appId = req.body.id;
+    // Получение данных из блокчейна
     contract.methods.getAppData(appId).call({from: login}).then(function(result) {
         res.send(result);
     });
 });
 
-app.post('/check_if_moder', function(req, res){
+// Post-запрос для проверки, является ли пользователь модератором
+app.post('/check_if_moder', function(req, res){ // TODO: БЧ
     data = req.data;
     db.collection('BCUsers').findOne({address: data.login}, function (err, result) {
         console.log(result);
@@ -213,12 +229,17 @@ app.post('/check_if_moder', function(req, res){
     })
 });
 
+// Post-запрос для получения списка заявок
+// принятых модератором
 app.post('/getapps_moderator', function(req, res){
     var moderator = req.body.moderator;
+    // Получение всех заявок, принятых модератором
     db.collection('appscollection').find({moderator: moderator}).toArray(function(error, result) {
         console.log(result);
         promises = [];
         ids = [];
+        // Создание списка Promise'ов для получения
+        // данных из блокчейна
         result.forEach(element => {
             promises.push(
                 new Promise(function(resolve, reject) {
@@ -227,6 +248,7 @@ app.post('/getapps_moderator', function(req, res){
             );
             ids.push(element.id);
         });
+        // Разрешение Promise'ов и получение данных из блокчейна
         Promise.all(promises).then(function(values){
             for(i = 0; i < ids.length; ++i){
                 values[i]['id'] = ids[i];
@@ -236,6 +258,7 @@ app.post('/getapps_moderator', function(req, res){
     });
 });
 
+// Post-запрос для принятия заявки модератором
 app.post('/take_app', function(req, res){
     appdata = req.body;
     contract.methods.acceptApplication(appdata.id).send({from: appdata.moderator}).then(function(){
@@ -244,12 +267,19 @@ app.post('/take_app', function(req, res){
     })
 });
 
-app.post('/give_moderation', function(req, res){
+// Post-запрос для закрытия заявки пользователем
+app.post('/close_app', function(req, res) {
+    appdata = req.body;
+    contract.methods.closeApplication(appdata.id).send({from: appdata.login}).then(function(){
+        db.collection('appscollection').findOneAndUpdate({id: appdata.id.toString()}, {$set: {status: 1}});
+        res.sendStatus(200);
+    });
+});
+
+// Post-запрос для передачи пользователю прав модератора (только с паролем администратора)
+app.post('/give_moderation', function(req, res){ // TODO: только для админов (пароль на дб)
     appdata = req.body;
     contract.methods.changeModerator(1, appdata.to).send({from: appdata.login}).then(function(){
         res.sendStatus(200);
     });
 });
-
-
-//Check

@@ -20,7 +20,7 @@
         <div class="container"><div class="card"><div class="card-content">
           <form method="POST" class="row">
             <a href="/user">Вернуться обратно</a>
-
+            <input type="hidden" name="login" id="login">
             <h4>Создать заявку</h4>
             <div class="input-field col s12">
                 <input type="text" id="title" name="title" class="validate" required>
@@ -48,13 +48,14 @@
               </button>
             </div>
           </form>
-          
+
         </div></div></div>
     </div>
   </body>
 
   <script>
       $(document).ready(function(){
+        $('#login').val(window.localStorage.login);
         $('.tabs').tabs({swipeable:true, duration: 200});
       });
   </script>

@@ -56,6 +56,7 @@ app.post('/signup', function(req, res){
         return {password: password, address: obj.address, privatekey: obj.privateKey, role: '0'}
     }
     regdata = returnCredentials(password);
+    console.log(regdata);
     res.send(regdata);
 
     db.collection('BCUsers').insertOne(regdata, function(err, result){

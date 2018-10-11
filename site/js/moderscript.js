@@ -46,8 +46,7 @@ function take_app(id){
 function get_app_data(){
     $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/moder/apps/', '')})
         .done(function (data){
-            console.log(data);
-
+            // console.log(data);
             $('#title').html('<br>' + data["4"]);
             $('#text').html(data["5"]);
             $('#data').html(
@@ -55,13 +54,13 @@ function get_app_data(){
             )
 
             if (data[0] === false){
-                setInterval('get_app_data()', 5000);
-                setInterval('get_chat()', 1000);
+                app = setInterval('get_app_data()', 5000);
+                chat = setInterval('get_chat()', 1000);
             }
             else{
                 get_chat();
-                clearInterval(0);
-                clearInterval(1);
+                clearInterval(app);
+                clearInterval(chat);
                 $('#service, .input-chat, button').remove();
             }
         });

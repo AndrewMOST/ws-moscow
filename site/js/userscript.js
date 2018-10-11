@@ -12,7 +12,6 @@ function quit(){
 function getapplications(){
     $.post('/getapps_user', {login: window.localStorage.login})
         .done(function (data){
-            console.table([data.id, data["4"]]);
             data.forEach(el => {
                 if (el["0"] === false){
                     $('#opened > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
@@ -34,6 +33,7 @@ function get_app_data(){
             $('#email').val(data["2"]);
             $('#text').val(data["5"]);
             $('#phone').val(data["3"]);
+
             if (data[0] === false){
                 setInterval('get_chat()', 1000);
             }

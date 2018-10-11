@@ -13,44 +13,13 @@
     <!-- Подключаем Materialize css -->
     <link rel="stylesheet" href="/css/materialize.min.css">
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/chat.css">
 
   </head>
   <body>
     <div id="app">
-        <div class="container"><div class="card"><div class="card-content">
-          <form method="POST" class="row">
-            <a href="/user">Вернуться обратно</a>
-            
-            <h4>Создать заявку</h4>
-            <div class="input-field col s12">
-                <input type="text" id="title" name="title" class="validate" required>
-                <label for="title">Название заявки</label>
-            </div>
-            <div class="input-field col s12">
-                <input type="text" id="name" name="name" class="validate" required>
-                <label for="name">Ваше имя</label>
-            </div>
-            <div class="input-field col s12">
-                <input type="email" id="email" name="email" class="validate" required>
-                <label for="email">Email</label>
-            </div>
-            <div class="input-field col s12">
-                <input type="text" id="phone" name="phone" class="validate" required>
-                <label for="phone">Phone number</label>
-            </div>
-            <div class="input-field col s12">
-                <textarea id="text" class="materialize-textarea" name="text" required></textarea>
-                <label for="text">Текст заявки</label>
-            </div>
-            <div class="input-field col s12"></div>
-              <button class="btn waves-effect waves-light right" type="submit">
-                  Сохранить заявку <i class="material-icons right">save</i>
-              </button>
-            </div>
-          </form>
-          
-        </div></div>
-    
+        <div class="container"><div class="row">
+
         <div class="card"><div class="card-content">
             <form method="POST" class="row">
                 <a href="/user">Вернуться обратно</a>
@@ -82,10 +51,19 @@
                 </button>
                 </div>
             </form>
-            
-            </div></div>
+        </div></div>
     
-    </div>
+        <div class="card"><div class="card-content">
+            <h4>Чат</h4>
+            <div class="chat">
+                <div class="text-message" class="left-message">
+                    <span>Admin</span>
+                    <p>Привет, я люблю играть в боулинг, а ты лох</p>
+                </div>
+            </div>
+        </div></div>
+    
+    </div></div>
     </div>
   </body>
 

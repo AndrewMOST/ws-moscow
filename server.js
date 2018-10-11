@@ -25,13 +25,20 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
     db = client.db('wsdatabase');
     app.listen(5000, function(){
         console.log('Server started');
-        // db.collection('BCUsers').deleteMany({});
+        //db.collection('BCUsers').deleteMany({});
         db.collection('BCUsers').findOne({}, function(err, result){
             console.log(result)
         });
         db.collection('appscollection').find({}).toArray(function(err, result){
             console.log(result);
         });
+
+
+        // db.collection('BCUsers').insertOne({address: '0x40A8bD68c4beed89a171e101C4464944A1D2f735', privatekey: '8fb9af9b738c4b9dc56caad9e313d93b3838dbfa8aec250955c09034f21d09df', role: '0', password: '123'}, function(err, result){
+        //     if (err){
+        //         return console.log(err);
+        //     }
+        // });
     })
 });
 
@@ -203,6 +210,10 @@ app.get('/user/apps/:id', function(req, res){
 
 app.post('/user/apps/:id', function(req, res){
     console.log(req.body);
+    var id = req.params.id;
+
+    db.collection('appscollection').findOneAndUpdate({id: id.toString()}, {$set: req.body});
+
     res.send(`<script>document.location = '/user/apps/${req.params.id}'</script>`);
 });
 
@@ -272,14 +283,16 @@ app.post('/close_app', function(req, res) {
     appdata = req.body;
     contract.methods.closeApplication(appdata.id).send({from: appdata.login}).then(function(){
         db.collection('appscollection').findOneAndUpdate({id: appdata.id.toString()}, {$set: {status: 1}});
-        res.sendStatus(200);
+        contract.methods.rateApplication(appdata.rating, appdata.id).send({from: appdata.login}).then(function(){
+            res.sendStatus(200);
+        });
     });
 });
 
 // Post-запрос для передачи пользователю прав модератора (только с паролем администратора)
 app.post('/give_moderation', function(req, res){ // TODO: только для админов (пароль на дб)
     appdata = req.body;
-    contract.methods.changeModerator(1, appdata.to).send({from: appdata.login}).then(function(){
+    contract.methods.changeModerator(appdata.status, appdata.to).send({from: appdata.login}).then(function(){
         res.sendStatus(200);
     });
 });

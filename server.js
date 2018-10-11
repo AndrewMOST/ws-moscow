@@ -181,7 +181,6 @@ app.get('/user/apps/:id', function(req, res){
 
 app.post('/get_app_data', function(req, res){
     appdata = req.body;
-
     // db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
     //     console.log(result);
     //     if (err){
@@ -195,7 +194,16 @@ app.post('/get_app_data', function(req, res){
     res.send('false');
 });
 
-
+app.post('/check_if_moder', function(req, res){
+    data = req.data;
+    db.collection('BCUsers').findOne({address: data.login}, function (err, result) {
+        console.log(result);
+        if (result.status === 0) {
+            return res.send(false);
+        }
+        res.send(true)
+    })
+}
 
 
 

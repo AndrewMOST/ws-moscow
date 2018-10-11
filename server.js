@@ -329,10 +329,23 @@ app.post('/getapps_moderator_taken', function(req, res){
 // Post-запрос для принятия заявки модератором
 app.post('/take_app', function(req, res){
     appdata = req.body;
-    contract.methods.acceptApplication(appdata.id).send({from: appdata.moderator}).then(function(){
-        db.collection('appscollection').findOneAndUpdate({id: appdata.id.toString()}, {$set: {moderator: appdata.moderator}});
-        res.sendStatus(200);
-    })
+    var amount = 0;
+    var rating = 0;
+    contract.methods.ratingsAmount().call(appdata.moderator).then(function(result){
+        amount = result;
+        contract.methods.ratings().call(appdata.moderator).then(function(result){
+            rating = result;
+            if(rating < 3 && amount > 5){
+                res.sendStatus(500);
+            }
+            else {
+                contract.methods.acceptApplication(appdata.id).send({from: appdata.moderator}).then(function(){
+                    db.collection('appscollection').findOneAndUpdate({id: appdata.id.toString()}, {$set: {moderator: appdata.moderator}});
+                    res.sendStatus(200);
+                })
+            }
+        });
+    });
 });
 
 // Post-запрос для закрытия заявки пользователем

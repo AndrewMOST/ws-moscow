@@ -131,10 +131,18 @@ app.post('/createapp', function(req, res){
 //Ищет заявки в базе по ключу пользователя, отправившего запрос.
 app.post('/getapps_user', function(req, res){
     var login = req.body.login;
-    db.collection('appscollection').find({login: login}, function(error, result) { // TODO: разобраться с курсорами
-        result.count(function(res){
-            console.log(res);
-        })
+    db.collection('appscollection').find({login: login}).toArray(function(error, result) { // TODO: разобраться с курсорами
+        promises = [];
+        result.forEach(element => {
+            promises.push(
+                new Promise(function(resolve, reject) {
+                    resolve(contract.methods.getAppData(element.id).call({from: login}));
+                })
+            );
+        });
+        Promise.all(promises).then(function(values){
+            res.send(values);
+        });
     });
 });
 
@@ -218,7 +226,7 @@ app.post('/getapps_moder', function(req, res){
                 status: '1', id: 0 }],
             "available": [{ _id: '5bbdfbd2b9251f3340a372f3',
                 login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
-                moder: '0',
+                moderator: '0x0',
                 question: 'Почему мой телефон сас?',
                 email: 'sas@sos.sis',
                 status: '0', id: 1 }]
@@ -228,7 +236,7 @@ app.post('/getapps_moder', function(req, res){
 app.post('/take_app', function(req, res){
     appdata = req.body;
     //Change status and moderator in BC
-    db.collection('appscollection').findOneAndUpdate({id: appdata.id}, {$set: {status: '1', moderator: appdata.moderator}})
+    db.collection('appscollection').findOneAndUpdate({id: appdata.id}, {$set: {moderator: appdata.moderator}})
     res.send(true);
 });
 

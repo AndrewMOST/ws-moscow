@@ -244,11 +244,41 @@ app.post('/check_if_moder', function(req, res){ // TODO: БЧ
 });
 
 // Post-запрос для получения списка заявок
-// принятых модератором
-app.post('/getapps_moderator', function(req, res){
+// готовых к модерации
+app.post('/getapps_moderator_available', function(req, res){
     var moderator = req.body.moderator;
     // Получение всех заявок, принятых модератором
     db.collection('appscollection').find({moderator: '0x0'}).toArray(function(error, result) {
+        console.log(result);
+        promises = [];
+        ids = [];
+
+        // Создание списка Promise'ов для получения
+        // данных из блокчейна
+        result.forEach(element => {
+            promises.push(
+                new Promise(function(resolve, reject) {
+                    resolve(contract.methods.getAppData(element.id).call({from: moderator}));
+                })
+            );
+            ids.push(element.id);
+        });
+        // Разрешение Promise'ов и получение данных из блокчейна
+        Promise.all(promises).then(function(values){
+            for(i = 0; i < ids.length; ++i){
+                values[i]['id'] = ids[i];
+            }
+            res.send(values);
+        });
+    });
+});
+
+// Post-запрос для получения списка заявок
+// принятых модератором
+app.post('/getapps_moderator_taken', function(req, res){
+    var moderator = req.body.moderator;
+    // Получение всех заявок, принятых модератором
+    db.collection('appscollection').find({moderator: moderator}).toArray(function(error, result) {
         console.log(result);
         promises = [];
         ids = [];

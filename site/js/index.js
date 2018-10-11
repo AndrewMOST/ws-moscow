@@ -13,9 +13,9 @@ function register(password=false){
     // Запрос к серверу на создание пользователя с данным паролем
     $.post('/signup', {password:password})
         .done(function (data){
-            cred = `Login: ${data.address}<br>Password: ${password}<br>Возможно на кошельке нет эфира!`; 
+            cred = `Login: ${data.address}<br>Password: ${password}<br> Возможно на кошельке нет эфира!`; 
             $('#datablock').html(cred); 
-            return JSON.stringify(cred.replace('<br>', '\n'));
+            console.log(cred.replace('<br>', '\n'));
         });
     
 }

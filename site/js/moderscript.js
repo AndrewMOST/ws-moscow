@@ -5,27 +5,25 @@ function help(){
 
 // Получить и вывести все заявки
 function getapplications(){
-    $.post('/getapps_moderator', {moderator: window.localStorage.login})
+    $.post('/getapps_moderator_available', {moderator: window.localStorage.login})
         .done(function (data){
             console.log(data);
-            $('#available > ul, #taken > ul').html('');
-            if (data.length === 0){
-                $('#available > ul').html('<p>Пока что нет заявок');
-                $('#taken > ul').html('<p>Вы не взяли ни одной заявки');
-                return false;
-            }
-
-            avalible = [];
-            taken = [];
-            data.forEach(el => {
-                if (el["0"] === false){
+            $('#available > ul').html('');
+            avalible = data;
+            avalible.forEach(el => {
                     $('#available > ul').prepend(`<li class="collection-item"><div>${el["5"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
-                }
-                else{
-                    $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${el.id}"><div>${el["5"]}</div></a>`);
-                }
             })
             if (available.length === 0){$('#available > ul').html('<p>Пока что нет заявок');}
+        });
+
+    $.post('/getapps_moderator_taken', {moderator: window.localStorage.login})
+        .done(function (data){
+            console.log(data);
+            $('#taken > ul').html('');
+            taken = data;
+            taken.forEach(el => {
+                $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${el.id}"><div>${el["5"]}</div></a>`);
+            })
             if (taken.length === 0){$('#taken > ul').html('<p>Вы не взяли ни одной заявки');}
         });
 }

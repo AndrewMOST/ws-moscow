@@ -214,4 +214,11 @@ app.post('/getapps_moder', function(req, res){
                 status: '0', id: 1 }]
         })});
 
+app.post('/take_app', function(req, res){
+    appdata = req.body;
+    //Change status and moderator in BC
+    db.collection('appscollection').findOneAndUpdate({id: appdata.id}, {$set: {status: '1', moderator: appdata.moderator}})
+});
+
+
 //Check

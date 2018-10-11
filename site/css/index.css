@@ -16,6 +16,9 @@ input{
     background-color:#bbdefb;
     color:black;
 }
+.btn-floating:hover{
+    background-color:#bbdefb;
+}
 .btn:hover{
     background-color:#64b5f6;
 }
@@ -80,8 +83,8 @@ input{
 }
 
 textarea.materialize-textarea:focus:not([read-only]){
-    border-bottom: 1px solid #ffb74d !important;
-    box-shadow: 0 1px 0 0 #ffb74d !important;
+    border-bottom: 1px solid #c8e6c9 !important;
+    box-shadow: 0 1px 0 0 #c8e6c9 !important;
 }
 textarea{
     color:white !important;

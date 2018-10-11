@@ -29,3 +29,37 @@ function get_app_data(){
             $('#phone').val(data.phone);
         });
 }
+
+// Получить чат заявки
+function get_chat(){
+    $.post('/get_chat', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
+        .done(function (data){
+
+            console.log(data);
+            html = '';
+            data.forEach(element => {
+                html += `<div class="text-message card-panel left-message">
+                            <span>${data.name}</span>
+                            <p>${data.text}</p>
+                        </div>`;
+            });
+                
+            $('.chat').html(html);
+        });
+}
+
+
+// Отправить сообщение
+function send_message(message = ''){
+    message = $('#message').val();
+    if (message === ''){
+        return false;
+    }
+
+    $('.chat').append(`<div class="text-message card-panel right-message">
+                            <span>Я</span>
+                            <p>${message}</p>
+                        </div>`);
+
+    $.post('/send_message', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), text: message})
+}

@@ -24,7 +24,7 @@
             <form method="POST" class="row">
                 <a href="/user">Вернуться обратно</a>
                 
-                <h4>Создать заявку</h4>
+                <h4>Ваша заявка</h4>
                 <div class="input-field col s12">
                     <input type="text" id="title" name="title" class="validate" required>
                     <label for="title">Название заявки</label>
@@ -38,7 +38,7 @@
                     <label for="email">Email</label>
                 </div>
                 <div class="input-field col s12">
-                    <input type="text" id="phone" name="phone" class="validate" required>
+                    <input type="number" id="phone" name="phone" class="validate" required>
                     <label for="phone">Phone number</label>
                 </div>
                 <div class="input-field col s12">
@@ -56,10 +56,36 @@
         <div class="card"><div class="card-content">
             <h4>Чат</h4>
             <div class="chat">
-                <div class="text-message" class="left-message">
+                <div class="text-message card-panel left-message">
                     <span>Admin</span>
                     <p>Привет, я люблю играть в боулинг, а ты лох</p>
                 </div>
+                <div class="text-message card-panel right-message">
+                    <span>user</span>
+                    <p>Привет, я люблю играть в боулинг, а ты лох</p>
+                </div>
+                <div class="text-message card-panel right-message">
+                    <span>user</span>
+                    <p>Привет, я люблю играть в боулинг, а ты лох</p>
+                </div>
+                <div class="text-message card-panel right-message">
+                    <span>user</span>
+                    <p>Привет, я люблю играть в боулинг, а ты лох</p>
+                </div>
+                <div class="text-message card-panel right-message">
+                    <span>user</span>
+                    <p>Привет, я люблю играть в боулинг, а ты лох</p>
+                </div>
+                <div class="text-message card-panel right-message">
+                    <span>user</span>
+                    <p>Привет, я люблю играть в боулинг, а ты лох</p>
+                </div>
+            </div>
+            <div class="input-chat">
+                <div class="input-field">
+                    <textarea id="message" class="materialize-textarea" placeholder="Напишите сообщение..."></textarea>
+                </div>
+                <a class="btn-floating btn-flat waves-effect" href="javascript:send_message()"><i class="material-icons Tiny">send</i></a>
             </div>
         </div></div>
     
@@ -67,10 +93,16 @@
     </div>
   </body>
 
-  <script src="/js/userscript.js"></script>
-  <!-- Подключаем Materialize js -->
-  <script src="/js/materialize.min.js"></script>
+    <script src="/js/userscript.js"></script>
+    <!-- Подключаем Materialize js -->
+    <script src="/js/materialize.min.js"></script>
 
-  <!-- Получаем данные о заявке -->
-  <script>$(document).ready(function(){get_app_data();});</script>
+    <!-- Получаем данные о заявке и обновляем чат -->
+    <script>
+        $(document).ready(function(){
+            get_app_data();
+            // get_chat();
+            // setInterval(get_chat_history(), 2000);
+        });
+    </script>
 </html>

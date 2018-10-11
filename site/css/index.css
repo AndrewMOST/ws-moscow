@@ -96,3 +96,7 @@ textarea.materialize-textarea:focus:not([read-only]) + label{
 .secondary-content {
     color: #8bc34a;
 }
+
+input:disabled{
+    color:white !important;
+}

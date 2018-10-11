@@ -18,7 +18,10 @@
   <body>
     <div id="app">
         <div class="container"><div class="card"><div class="card-content">
+          <a href="javascript:quit()" class="waves-effect btn-flat white-text"><i class="material-icons left">keyboard_arrow_left</i>Выйти</a>
+
           <h4>Заявки</h4>
+
           <ul id="tabs-swipe" class="tabs tabs-fixed-width tab-demo z-depth-1 tabs-custom">
               <li class="tab col s6"><a class="active" href="#available">Доступные</a></li>
               <li class="tab col s6"><a href="#taken">Взятые</a></li>
@@ -44,6 +47,7 @@
       $(document).ready(function(){
         $('.tabs').tabs({swipeable:true, duration: 200});
         getapplications();
+        setInterval('getapplications()', 1000);
       });
   </script>
 </html>

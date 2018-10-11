@@ -26,6 +26,7 @@
                 <a href="/user" class="waves-effect btn-flat white-text"><i class="material-icons left">keyboard_arrow_left</i>Вернуться обратно</a>
                 
                 <h4>Ваша заявка</h4>
+                <input name="login" type="hidden" id="login">
                 <div class="input-field col s12">
                     <input type="text" id="title" name="title" class="validate" required>
                     <label for="title">Название заявки</label>
@@ -74,7 +75,7 @@
             <div class="card"><div class="card-content">
                 <H4>Оцените обслуживание!</H4>
                 <p class="range-field">
-                    <input type="range" id="rating" min="0" max="5" value="5"/>
+                    <input type="range" id="rating" min="1" max="5" value="5"/>
                 </p>
                 <p>Вашу проблему решили?</p>
 
@@ -97,6 +98,7 @@
         $(document).ready(function(){
             $('label').addClass('active');
             get_app_data();
+            $('#login').val(window.localStorage.login);
         });
     </script>
 </html>

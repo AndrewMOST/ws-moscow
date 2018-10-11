@@ -3,6 +3,11 @@ function help(){
     console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
 }
 
+function quit(){
+    window.localStorage.login = '';
+    document.location = "/";
+}
+
 // Получить и вывести все заявки
 function getapplications(){
     $.post('/getapps_user', {login: window.localStorage.login})

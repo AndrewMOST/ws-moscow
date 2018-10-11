@@ -3,6 +3,11 @@ function help(){
     console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
 }
 
+function quit(){
+    window.localStorage.login = '';
+    document.location = "/";
+}
+
 // Получить и вывести все заявки
 function getapplications(){
     $.post('/getapps_moderator_available', {moderator: window.localStorage.login})
@@ -52,7 +57,9 @@ function get_app_data(){
                 setInterval('get_chat()', 1000);
             }
             else{
-                get_chat()
+                get_chat();
+                clearInterval(0);
+                clearInterval(1);
                 $('#service, .input-chat, button').remove();
             }
         });

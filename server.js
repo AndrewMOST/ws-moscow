@@ -261,7 +261,7 @@ app.post('/getapps_moderator_available', function(req, res){
         result.forEach(element => {
             promises.push(
                 new Promise(function(resolve, reject) {
-                    console.log(element);
+                    // console.log(element);
                     ids.push(element.id);
                     resolve(contract.methods.getAppData(element.id).call({from: moderator}));
                 })
@@ -272,7 +272,7 @@ app.post('/getapps_moderator_available', function(req, res){
             for(i = 0; i < ids.length; ++i){
                 values[i]['id'] = ids[i];
             }
-            console.log(ids);
+            // console.log(ids);
             res.send(values);
         });
     });

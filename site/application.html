@@ -20,6 +20,7 @@
     <div id="app">
         <div class="container"><div class="row">
 
+        <div class="col s12 l6">   
         <div class="card"><div class="card-content">
             <form method="POST" class="row">
                 <a href="/user" class="waves-effect btn-flat white-text"><i class="material-icons left">keyboard_arrow_left</i>Вернуться обратно</a>
@@ -49,10 +50,11 @@
                 <button class="btn waves-effect waves-light right" type="submit">
                     Сохранить заявку <i class="material-icons right">save</i>
                 </button>
-                </div>
             </form>
+            </div>
         </div></div>
-    
+
+        <div class="col s12 l6">   
         <div class="card"><div class="card-content">
             <h4>Чат</h4>
             <div class="chat">
@@ -88,6 +90,18 @@
                 <a class="btn-floating btn-flat waves-effect" href="javascript:send_message()"><i class="material-icons Tiny">send</i></a>
             </div>
         </div></div>
+        </div> 
+
+        <!-- Оценка -->
+        <div class="col s12 l6">   
+            <div class="card"><div class="card-content">
+                <H4>Оцените обслуживание!</H4>
+                <p class="range-field">
+                    <input type="range" id="mark" min="0" max="5" value="5"/>
+                </p>
+
+            </div></div>
+        </div>
     
     </div></div>
     </div>
@@ -100,9 +114,10 @@
     <!-- Получаем данные о заявке и обновляем чат -->
     <script>
         $(document).ready(function(){
+            $('label').addClass('active');
             get_app_data();
-            // get_chat();
-            // setInterval(get_chat_history(), 2000);
+            get_chat();
+            setInterval(get_chat(), 2000);
         });
     </script>
 </html>

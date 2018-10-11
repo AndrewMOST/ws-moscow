@@ -162,7 +162,7 @@ app.post('/send_message', function(req, res){
     });
 });
 
-app.post('/getchat', function(req, res){
+app.post('/get_chat', function(req, res){
     var id = req.body.id;
     var login = req.body.login;
     chat = {};

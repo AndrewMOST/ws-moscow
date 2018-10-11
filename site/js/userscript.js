@@ -7,13 +7,15 @@ function help(){
 function getapplications(){
     $.post('/getapps_user', {login: window.localStorage.login})
         .done(function (data){
-            console.log(data);
-            data.opened.forEach(element => {
-                $('#opened > ul').prepend(`<a class="collection-item" href="/user/apps/${element.id}"><div>${element.question}</div></a>`);
-            });
-            data.closed.forEach(element => {
-                $('#closed > ul').prepend(`<a class="collection-item" href="/user/apps/${element.id}"><div>${element.question}</div></a>`);
-            });
+            console.table([data.id, data["4"]]);
+            data.forEach(el => {
+                if (el["0"] === false){
+                    $('#opened > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
+                }
+                else{
+                    $('#closed > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
+                }
+            })
         });
 }
 
@@ -22,11 +24,11 @@ function get_app_data(){
     $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
         .done(function (data){
             console.log(data);
-            $('#title').val(data.title);
-            $('#name').val(data.name);
-            $('#email').val(data.email);
-            $('#text').val(data.text);
-            $('#phone').val(data.phone);
+            $('#title').val(data["4"]);
+            $('#name').val(data["1"]);
+            $('#email').val(data["2"]);
+            $('#text').val(data["5"]);
+            $('#phone').val(data["3"]);
         });
 }
 
@@ -34,16 +36,20 @@ function get_app_data(){
 function get_chat(){
     $.post('/get_chat', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
         .done(function (data){
-
-            console.log(data);
+            if (data[0] === undefined){
+                $('.chat').html('Пока что нет ни одного сообщения!');
+                return false;
+            }
             html = '';
-            data.forEach(element => {
-                html += `<div class="text-message card-panel left-message">
-                            <span>${data.name}</span>
-                            <p>${data.text}</p>
+            for (i in data){
+                element = data[i];
+                if (element.sender == true){name = 'Я'; or = 'right'}
+                else{name = 'Техподдержка'; or = 'left'}
+                html += `<div class="text-message card-panel ${or}-message">
+                            <span>${name}</span>
+                            <p>${element.text}</p>
                         </div>`;
-            });
-                
+            }
             $('.chat').html(html);
         });
 }
@@ -61,6 +67,6 @@ function send_message(message = ''){
                             <span>Я</span>
                             <p>${message}</p>
                         </div>`);
-
+    $('#message').val('');
     $.post('/send_message', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), text: message})
 }

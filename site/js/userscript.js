@@ -16,4 +16,16 @@ function getapplications(){
             });
         });
 }
-getapplications();
+
+// Получить данные заявки
+function get_app_data(){
+    $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
+        .done(function (data){
+            console.log(data);
+            $('#title').val(data.title);
+            $('#name').val(data.name);
+            $('#email').val(data.email);
+            $('#text').val(data.text);
+            $('#phone').val(data.phone);
+        });
+}

@@ -52,6 +52,9 @@
     </div>
   </body>
     <script src="js/index.js"></script>
+    <script>
+    if (window.localStorage.login != undefined || window.localStorage.login != ''){$('#login').val(window.localStorage.login);}
+    </script>
     
     <!-- Подключаем Materialize js -->
     <script src="js/materialize.min.js"></script>

@@ -159,8 +159,6 @@ app.post('/get_app_data', function(req, res){
         }
         res.send(result);
     })
-
-
 });
 
 //Check

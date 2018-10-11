@@ -142,13 +142,25 @@ app.post('/getapps_user', function(req, res){
     );
 });
 
-
-app.get('/apps/:id', function(req, res){
+app.get('/user/apps/:id', function(req, res){
     res.sendFile(path.join(__dirname+'/site/application.html'));
 });
 
 app.post('/get_app_data', function(req, res){
-    
+    appdata = req.body;
+
+    db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
+        console.log(result);
+        if (err){
+            return console.log(err)
+        }
+        if (result.login !== appdata.login){
+            res.send('false');
+        }
+        res.send(result);
+    })
+
+
 });
 
 //Check

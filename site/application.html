@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="css/icon.css">
+    <link rel="stylesheet" href="/css/icon.css">
 
     <!-- Подключаем Jquery -->
-    <script src="js/jquery-3.3.1.js"></script>
+    <script src="/js/jquery-3.3.1.js"></script>
     <title>Служба поддержки</title>
     <!-- Подключаем Materialize css -->
-    <link rel="stylesheet" href="css/materialize.min.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/index.css">
 
   </head>
   <body>
@@ -61,7 +61,7 @@
 
     // Получить и вывести все заявки
     function getapplications(){
-        $.post('/get_app_data', {login: window.localStorage.login, id: document.location.hash.slice(1)})
+        $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/apps/', '')})
             .done(function (data){
                 console.log(data);
                 $('#title').val(data.title);
@@ -76,5 +76,5 @@
   </script>
   
   <!-- Подключаем Materialize js -->
-  <script src="js/materialize.min.js"></script>
+  <script src="/js/materialize.min.js"></script>
 </html>

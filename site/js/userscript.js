@@ -9,10 +9,10 @@ function getapplications(){
         .done(function (data){
             console.log(data);
             data.opened.forEach(element => {
-                $('#opened > ul').prepend(`<a class="collection-item" href="apps/#${element.id}"><div>${element.question}</div></a>`);
+                $('#opened > ul').prepend(`<a class="collection-item" href="/user/apps/${element.id}"><div>${element.question}</div></a>`);
             });
             data.closed.forEach(element => {
-                $('#closed > ul').prepend(`<a class="collection-item" href="apps/#${element.id}"><div>${element.question}</div></a>`);
+                $('#closed > ul').prepend(`<a class="collection-item" href="/user/apps/${element.id}"><div>${element.question}</div></a>`);
             });
         });
 }

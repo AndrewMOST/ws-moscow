@@ -5,17 +5,28 @@ function help(){
 
 // Получить и вывести все заявки
 function getapplications(){
-    $.post('/getapps_moder', {login: window.localStorage.login})
+    $.post('/getapps_moderator', {moderator: window.localStorage.login})
         .done(function (data){
+            console.log(data);
             $('#available > ul, #taken > ul').html('');
-            if (data.available.length === 0){$('#available > ul').html('<p>Пока что нет заявок');}
-            if (data.taken.length === 0){$('#taken > ul').html('<p>Вы не взяли ни одной заявки');}
-            data.available.forEach(element => {
-                $('#available > ul').prepend(`<li class="collection-item"><div>${element.question}<a href="javascript:take_app(${element.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
-            });
-            data.taken.forEach(element => {
-                $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${element.id}"><div>${element.question}</div></a>`);
-            });
+            if (data.length === 0){
+                $('#available > ul').html('<p>Пока что нет заявок');
+                $('#taken > ul').html('<p>Вы не взяли ни одной заявки');
+                return false;
+            }
+
+            avalible = [];
+            taken = [];
+            data.forEach(el => {
+                if (el["0"] === false){
+                    $('#available > ul').prepend(`<li class="collection-item"><div>${el["5"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
+                }
+                else{
+                    $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${el.id}"><div>${el["5"]}</div></a>`);
+                }
+            })
+            if (available.length === 0){$('#available > ul').html('<p>Пока что нет заявок');}
+            if (taken.length === 0){$('#taken > ul').html('<p>Вы не взяли ни одной заявки');}
         });
 }
 
@@ -31,11 +42,20 @@ function get_app_data(){
     $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/moder/apps/', '')})
         .done(function (data){
             console.log(data);
-            $('#title').html(data.title);
-            $('#text').html(data.text);
+
+            $('#title').val(data["4"]);
+            $('#text').val(data["5"]);
             $('#data').html(
-                `Имя: ${data.name}<br>Телефон: ${data.phone}<br>Email: ${data.email}<br>`
+                `Имя: ${data["1"]}<br>Телефон: ${data["3"]}<br>Email: ${data["2"]}<br>`
             )
+
+            if (data[0] === false){
+                setInterval('get_chat()', 1000);
+            }
+            else{
+                get_chat()
+                $('#service, .input-chat, button').remove();
+            }
         });
 }
 
@@ -43,16 +63,20 @@ function get_app_data(){
 function get_chat(){
     $.post('/get_chat', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
         .done(function (data){
-
-            console.log(data);
+            if (data[0] === undefined){
+                $('.chat').html('Пока что нет ни одного сообщения!');
+                return false;
+            }
             html = '';
-            data.forEach(element => {
-                html += `<div class="text-message card-panel left-message">
-                            <span>${data.name}</span>
-                            <p>${data.text}</p>
+            for (i in data){
+                element = data[i];
+                if (element.sender == false){name = 'Я'; or = 'right'}
+                else{name = 'Клиент'; or = 'left'}
+                html += `<div class="text-message card-panel ${or}-message">
+                            <span>${name}</span>
+                            <p>${element.text}</p>
                         </div>`;
-            });
-                
+            }
             $('.chat').html(html);
         });
 }
@@ -70,5 +94,5 @@ function send_message(message = ''){
                             <p>${message}</p>
                         </div>`);
 
-    $.post('/send_message', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), text: message})
+    $.post('/send_message', {login: window.localStorage.login, id: document.location.pathname.replace('/moder/apps/', ''), text: message})
 }

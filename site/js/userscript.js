@@ -29,6 +29,15 @@ function get_app_data(){
             $('#email').val(data["2"]);
             $('#text').val(data["5"]);
             $('#phone').val(data["3"]);
+            
+            if (data[0] === false){
+                setInterval('get_chat()', 1000);
+            }
+            else{
+                get_chat()
+                $('#service, .input-chat, button').remove();
+            }
+            
         });
 }
 
@@ -69,4 +78,11 @@ function send_message(message = ''){
                         </div>`);
     $('#message').val('');
     $.post('/send_message', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), text: message})
+}
+
+function close_app(){
+    rating = $('#rating').val();
+    console.log('Rating: ' + rating)
+    $.post('/close_app', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), rating: rating});
+    document.location = '/user';
 }

@@ -26,9 +26,11 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
     app.listen(5000, function(){
         console.log('Server started');
         // db.collection('BCUsers').deleteMany({});
-        db.collection('BCUsers').findOne({}, function(err, result){
+        // db.collection('appscollection').deleteMany({});
+        db.collection('BCUsers').find({}).toArray(function(err, result){
             console.log(result)
         });
+        
         db.collection('appscollection').find({}).toArray(function(err, result){
             console.log(result);
         });
@@ -234,10 +236,11 @@ app.post('/check_if_moder', function(req, res){ // TODO: БЧ
 app.post('/getapps_moderator', function(req, res){
     var moderator = req.body.moderator;
     // Получение всех заявок, принятых модератором
-    db.collection('appscollection').find({moderator: moderator}).toArray(function(error, result) {
+    db.collection('appscollection').find({moderator: '0x0'}).toArray(function(error, result) {
         console.log(result);
         promises = [];
         ids = [];
+        
         // Создание списка Promise'ов для получения
         // данных из блокчейна
         result.forEach(element => {

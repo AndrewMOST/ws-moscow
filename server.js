@@ -27,13 +27,9 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
         db.collection('BCUsers').findOne({}, function(err, result){
             console.log(result)
         });
-        db.collection('appscollection').findOne({status: '0'}, function(err, result){
+        db.collection('appscollection').find({}, function(err, result){
             console.log(result)
         });
-        db.collection('appscollection').findOne({status: '1'}, function(err, result){
-            console.log(result)
-        })
-
     })
 });
 

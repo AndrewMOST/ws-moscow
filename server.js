@@ -1,12 +1,14 @@
+var bcData = require('./blockchain-data');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var Web3 = require("web3");
-var web3 = new Web3();
 var MongoClient = require('mongodb').MongoClient;
 var db;
 const url = 'mongodb://169.254.3.88:27017/mydb';
 
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var contract = new web3.eth.Contract(JSON.parse(bcData.abi), bcData.techSupportAddress);
 
 const path = require('path');
 
@@ -91,14 +93,35 @@ app.get('/createapp', function(req, res){
 
 //Post-запрос на создание новой заявки,сохраняющий JSON заявки в коллекцию заявок базы данных
 app.post('/createapp', function(req, res){
+    // Берем нужные данныеы из JSON'а запроса
     appdata = req.body;
-    json_data = {title: appdata.title, name: appdata.name, phone: appdata.phone, status: 0, id_user: localStorage.login, id_moder: ''}
-    db.collection('appscollection').insertOne(appdata, function(err, result){
-        if (err){
-            return console.log(err)
-        }
-        res.send('<script>document.location = "/user"</script>');
-    })
+
+    // Отправляем транзакцию в блокчейн
+    contract.methods.submitApplication(
+        appdata.name,
+        appdata.email,
+        appdata.phone,
+        appdata.title,
+        appdata.text).send(
+        {from: appdata.login, gas: 4000000}).then(function(receipt) {
+            // Получаем результаты из блокчейна
+            var result = receipt.events.ApplicationCreated.returnValues;
+
+            // Записываем мета-данные в MongoDB
+            var meta = {
+                "login": appdata.login,
+                "id": result._appId,
+                "moderator": "0x0",
+                "status": 0
+            };
+            console.log(meta);
+            db.collection('appscollection').insertOne(meta, function(err, result){
+                if (err){
+                    return console.log(err)
+                }
+                res.send('<script>document.location = "/user"</script>');
+            })
+        });
 });
 
 //Post-запрос на получение информации об оставленных пользователем заявках.
@@ -129,7 +152,7 @@ app.post('/getapps_user', function(req, res){
             login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
             question: 'Почему моя стиральная машина не работает?',
             email: 'sas@sos.sis',
-            status: '1', id: 0 }], 
+            status: '1', id: 0 }],
         "opened": [{ _id: '5bbdfbd2b9251f3340a372f3',
             login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
             question: 'Почему мой телефон не работает?',
@@ -155,17 +178,17 @@ app.get('/user/apps/:id', function(req, res){
 app.post('/get_app_data', function(req, res){
     appdata = req.body;
 
-    db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
-        console.log(result);
-        if (err){
-            return console.log(err)
-        }
-        if (result.login !== appdata.login){
-            res.send('false');
-        }
-        //Instead of sending result you need to ask BC for info by the app ID
-        res.send(result);
-    })
+    // db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
+    //     console.log(result);
+    //     if (err){
+    //         return console.log(err)
+    //     }
+    //     if (result.login !== appdata.login){
+    //         res.send('false');
+    //     }
+    //     res.send(result);
+    // })
+    res.send('false');
 });
 
 

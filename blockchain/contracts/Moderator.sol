@@ -29,6 +29,9 @@ contract Moderator {
         _;
     }
 
+    // Словарь количества оценок модератора
+    mapping(address => uint32) public ratingsAmount;
+
     // Словарь рейтинга модераторов
-    mapping(address => uint32) public ratings;
+    mapping(address => uint8) public ratings;
 }

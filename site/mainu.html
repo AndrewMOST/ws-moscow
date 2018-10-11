@@ -38,14 +38,14 @@
         </div></div></div>
     </div>
   </body>
-
+  <!-- Подключаем Materialize js и скрипты-->
+  <script src="js/userscript.js"></script>
+  <script src="js/materialize.min.js"></script>
+  
   <script>
       $(document).ready(function(){
         $('.tabs').tabs({swipeable:true, duration: 200});
+        getapplications();
       });
   </script>
-  <script src="js/userscript.js"></script>
-  <script>getapplications();</script>
-  <!-- Подключаем Materialize js -->
-  <script src="js/materialize.min.js"></script>
 </html>

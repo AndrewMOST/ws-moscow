@@ -31,7 +31,7 @@ function login(login=false, password=false){
         $('#login, #password').addClass('invalid');
         return false;
     }
-
+    
     // Запрос к серверу на вход
     $.post('/signin', {login:login, password:password}).done(
         function (data){

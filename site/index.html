@@ -64,7 +64,7 @@
   </body>
     <script src="js/index.js"></script>
     <script>
-    if (window.localStorage.login != undefined || window.localStorage.login != ''){$('#login').val(window.localStorage.login);}
+    if (window.localStorage.login != 'undefined' && window.localStorage.login != ''){$('#login').val(window.localStorage.login);}
     </script>
     
     <!-- Подключаем Materialize js -->

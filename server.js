@@ -199,9 +199,9 @@ app.post('/check_if_moder', function(req, res){
         if (result.status === 0) {
             return res.send(false);
         }
-        res.send(true)
+        res.send(true);
     })
-}
+});
 
 app.post('/getapps_moder', function(req, res){
     appdata = req.body;
@@ -220,6 +220,7 @@ app.post('/getapps_moder', function(req, res){
                 question: 'Почему мой телефон сас?',
                 email: 'sas@sos.sis',
                 status: '0', id: 1 }]
-        })});
+        })
+});
 
 //Check

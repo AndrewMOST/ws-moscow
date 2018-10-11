@@ -29,10 +29,8 @@ MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
         db.collection('BCUsers').findOne({}, function(err, result){
             console.log(result)
         });
-        db.collection('appscollection').find({}, function(err, docs){
-            db.collection('appscollection').findOne({} , function(err, result){
-                console.log(result)
-            })
+        db.collection('appscollection').find({}).toArray(function(err, result){
+            console.log(result);
         });
     })
 });
@@ -131,7 +129,7 @@ app.post('/createapp', function(req, res){
 //Ищет заявки в базе по ключу пользователя, отправившего запрос.
 app.post('/getapps_user', function(req, res){
     var login = req.body.login;
-    db.collection('appscollection').find({login: login}).toArray(function(error, result) { // TODO: разобраться с курсорами
+    db.collection('appscollection').find({login: login}).toArray(function(error, result) {
         promises = [];
         ids = [];
         result.forEach(element => {
@@ -210,30 +208,42 @@ app.post('/check_if_moder', function(req, res){
     })
 });
 
-app.post('/getapps_moder', function(req, res){
-    appdata = req.body;
-    res.send(
-        {
-            "taken": [{ _id: '5bbdfbe5b9251f3340a372f4',
-                login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
-                question: 'Почему моя стиральная машина cос?',
-                moderator: '0x52687269234897389279285793450',
-                email: 'sas@sos.sis',
-                status: '1', id: 0 }],
-            "available": [{ _id: '5bbdfbd2b9251f3340a372f3',
-                login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
-                moderator: '0x0',
-                question: 'Почему мой телефон сас?',
-                email: 'sas@sos.sis',
-                status: '0', id: 1 }]
-        })
+app.post('/getapps_moderator', function(req, res){
+    var moderator = req.body.moderator;
+    db.collection('appscollection').find({moderator: moderator}).toArray(function(error, result) {
+        console.log(result);
+        promises = [];
+        ids = [];
+        result.forEach(element => {
+            promises.push(
+                new Promise(function(resolve, reject) {
+                    resolve(contract.methods.getAppData(element.id).call({from: moderator}));
+                })
+            );
+            ids.push(element.id);
+        });
+        Promise.all(promises).then(function(values){
+            for(i = 0; i < ids.length; ++i){
+                values[i]['id'] = ids[i];
+            }
+            res.send(values);
+        });
+    });
 });
 
 app.post('/take_app', function(req, res){
     appdata = req.body;
-    //Change status and moderator in BC
-    db.collection('appscollection').findOneAndUpdate({id: appdata.id}, {$set: {moderator: appdata.moderator}})
-    res.send(true);
+    contract.methods.acceptApplication(appdata.id).send({from: appdata.moderator}).then(function(){
+        db.collection('appscollection').findOneAndUpdate({id: appdata.id.toString()}, {$set: {moderator: appdata.moderator}});
+        res.sendStatus(200);
+    })
+});
+
+app.post('/give_moderation', function(req, res){
+    appdata = req.body;
+    contract.methods.changeModerator(1, appdata.to).send({from: appdata.login}).then(function(){
+        res.sendStatus(200);
+    });
 });
 
 

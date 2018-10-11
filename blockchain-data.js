@@ -51,6 +51,10 @@ exports.abi = JSON.stringify([
     "outputs": [
       {
         "name": "",
+        "type": "bool"
+      },
+      {
+        "name": "",
         "type": "string"
       },
       {

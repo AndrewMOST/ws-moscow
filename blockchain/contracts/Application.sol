@@ -51,9 +51,9 @@ contract Application {
     }
 
     // Получаем информацию о заявке
-    function getAppData(uint256 _appId) public view returns(string, string, string, string, string){
+    function getAppData(uint256 _appId) public view returns(bool, string, string, string, string, string){
         ApplicationData memory _app = applications[_appId];
-        return(_app.name, _app.email, _app.phone, _app.title, _app.text);
+        return(_app.status, _app.name, _app.email, _app.phone, _app.title, _app.text);
     }
 
     // Получаем данные чата заявки

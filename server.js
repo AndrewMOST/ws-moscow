@@ -96,7 +96,7 @@ app.get('/createapp', function(req, res){
 //Post-запрос на создание новой заявки,сохраняющий JSON заявки в коллекцию заявок базы данных
 app.post('/createapp', function(req, res){
     appdata = req.body;
-    json_data = {title: appdata.title, name: appdata.name, phone: appdata.phone, status: 0, id_user: localStorage.login, id_moder: ''}
+    json_data = {title: appdata.title, name: appdata.name, phone: appdata.phone, status: 0, id_user: appdata.login, id_moder: ''}
     db.collection('appscollection').insertOne(appdata, function(err, result){
         if (err){
             return console.log(err)
@@ -158,16 +158,17 @@ app.get('/user/apps/:id', function(req, res){
 app.post('/get_app_data', function(req, res){
     appdata = req.body;
 
-    db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
-        console.log(result);
-        if (err){
-            return console.log(err)
-        }
-        if (result.login !== appdata.login){
-            res.send('false');
-        }
-        res.send(result);
-    })
+    // db.collection('appscollection').findOne({id: appdata.id}, function(err, result){
+    //     console.log(result);
+    //     if (err){
+    //         return console.log(err)
+    //     }
+    //     if (result.login !== appdata.login){
+    //         res.send('false');
+    //     }
+    //     res.send(result);
+    // })
+    res.send('false');
 });
 
 //Check

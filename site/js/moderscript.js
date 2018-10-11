@@ -10,7 +10,7 @@ function getapplications(){
             $('#available > ul').html('');
             avalible = data;
             avalible.forEach(el => {
-                    $('#available > ul').prepend(`<li class="collection-item"><div>${el["1"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
+                $('#available > ul').prepend(`<li class="collection-item"><div>${el["4"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
             })
             if (available.length === 0){$('#available > ul').html('<p>Пока что нет заявок');}
         }).then(function(){
@@ -19,7 +19,7 @@ function getapplications(){
                     $('#taken > ul').html('');
                     taken = data;
                     taken.forEach(el => {
-                        $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${el.id}"><div>${el["1"]}</div></a>`);
+                        $('#taken > ul').prepend(`<a class="collection-item" href="/moder/apps/${el.id}"><div>${el["4"]}</div></a>`);
                     })
                     if (taken.length === 0){$('#taken > ul').html('<p>Вы не взяли ни одной заявки');}
                 });
@@ -48,6 +48,7 @@ function get_app_data(){
             )
 
             if (data[0] === false){
+                setInterval('get_app_data()', 1000);
                 setInterval('get_chat()', 1000);
             }
             else{

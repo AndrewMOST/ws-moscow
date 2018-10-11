@@ -63,12 +63,12 @@ input{
 .tabs.tabs-custom .tab a:hover, .tabs.tabs-custom .tab a.active{
     color: #ffb74d;
 }
-.tabs.tabs-custom, .collection a.collection-item{
-    background-color: #263238;
+.tabs.tabs-custom, .collection-item{
+    background-color: #263238 !important;
     border: none;
 }
-.collection, .collection a.collection-item {
-    color:white;
+.collection, .collection-item {
+    color:white !important;
     border: none;
 }
 
@@ -91,4 +91,8 @@ textarea{
 }
 textarea.materialize-textarea:focus:not([read-only]) + label{
     color:white !important;
+}
+
+.secondary-content {
+    color: #ffb74d;
 }

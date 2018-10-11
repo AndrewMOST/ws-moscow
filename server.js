@@ -212,9 +212,8 @@ app.post('/getapps_moder', function(req, res){
                 question: 'Почему моя стиральная машина cос?',
                 moderator: '0x52687269234897389279285793450',
                 email: 'sas@sos.sis',
-                status: '1', id: 0 }]
-        },
-        {    "available": [{ _id: '5bbdfbd2b9251f3340a372f3',
+                status: '1', id: 0 }],
+            "available": [{ _id: '5bbdfbd2b9251f3340a372f3',
                 login: '0x5C88752f11aD9f442c74C4cae3D1d9613C4F92c2',
                 moder: '0',
                 question: 'Почему мой телефон сас?',
@@ -222,5 +221,13 @@ app.post('/getapps_moder', function(req, res){
                 status: '0', id: 1 }]
         })
 });
+
+app.post('/take_app', function(req, res){
+    appdata = req.body;
+    //Change status and moderator in BC
+    db.collection('appscollection').findOneAndUpdate({id: appdata.id}, {$set: {status: '1', moderator: appdata.moderator}})
+    res.send(true);
+});
+
 
 //Check

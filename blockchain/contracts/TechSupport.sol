@@ -5,6 +5,7 @@ import "./Moderator.sol";
 import "./Application.sol";
 import "./Events.sol";
 
+// Основной контракт технической поддержки
 contract TechSupport is Moderator, Application, Events {
     // Отправка заявки пользователем
     function submitApplication (
@@ -118,7 +119,8 @@ contract TechSupport is Moderator, Application, Events {
         // Оценка должна быть по 5-балльной шкале
         require(_rating > 0 && _rating < 6, "Incorrect rating!");
 
-        // Обновим рейтинг модератора
+        // Обновим рейтинг модератора:
+        // (старый_рейтинг * количество_заявок + оценка) / (количество_заявок + 1)
         uint32 oldRating = (ratings[applications[_appId].moderator])*(ratingsAmount[applications[_appId].moderator]++);
         ratings[applications[_appId].moderator] = uint8((oldRating + _rating) / ratingsAmount[applications[_appId].moderator]);
     }

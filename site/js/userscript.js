@@ -1,8 +1,6 @@
 // Скрипт для юзерского интерфейса и консоли
 // Для началы работы нужно войти в систему или зарегистрироваться
 // Команды консоли:
-// register("Пример пароля") — регистрация пользователя
-// login("Ваш логин", "Ваш пароль") — вход в систему
 // get_apps() — получить заявки пользователя (закрытые и открытые)
 // get_app_byid(id заявки) — получить данные заявки
 // get_app_chat_byid(id заявки) — получить чат заявки
@@ -11,11 +9,19 @@
 // quit() — выход из системы, очистка кэша и т. д.
 
 
-
 // Инициализация консольного приложения для пользователя
-console.log('Чтобы начать работу, введите help()');
+console.log('Привет Пользователь!\nЧтобы начать работу, введите help()');
 function help(){
-    console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
+    console.log(
+        `Команды консоли:
+
+get_apps() — получить заявки пользователя (закрытые и открытые)
+get_app_byid(id заявки) — получить данные заявки
+get_app_chat_byid(id заявки) — получить чат заявки
+send_message_byid("Ваше сообщение", id заявки) — отправить сообшение по id заявки
+close_app_byid(rating(от 1 до 5), id заявки) — закрыть заявку
+quit() — выход из системы, очистка кэша и т. д.`
+    );
 }
 
 // Функция выхода из системы
@@ -129,8 +135,7 @@ function send_message_byid(message = '', id){
         return false;
     }
     else{
-        $.post('/send_message', {login: window.localStorage.login, id: id, text: message})
-        console.log('Сообщение отправлено!')
+        $.post('/send_message', {login: window.localStorage.login, id: id, text: message}).done(()=>{console.log('Сообщение отправлено!')}).fail(()=>{console.log('Заявка уже закрыта!')})
     }
 }
 
@@ -177,7 +182,6 @@ function get_apps(){
 function get_app_byid(id){
     $.post('/get_app_data', {login: window.localStorage.login, id: id})
         .done(function (data){
-            console.log(data);
             console.table([{title: data["4"], name: data["1"], email:data["2"],text:data["5"],phone:data["3"]}])
         });
 }

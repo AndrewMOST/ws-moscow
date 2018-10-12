@@ -1,8 +1,24 @@
+// Скрипт для юзерского интерфейса и консоли
+// Для началы работы нужно войти в систему или зарегистрироваться
+// Команды консоли:
+// register("Пример пароля") — регистрация пользователя
+// login("Ваш логин", "Ваш пароль") — вход в систему
+// get_apps() — получить заявки пользователя (закрытые и открытые)
+// get_app_byid(id заявки) — получить данные заявки
+// get_app_chat_byid(id заявки) — получить чат заявки
+// send_message_byid("Ваше сообщение", id заявки) — отправить сообшение по id заявки
+// close_app_byid(rating(от 1 до 5), id заявки) — закрыть заявку
+// quit() — выход из системы, очистка кэша и т. д.
+
+
+
+// Инициализация консольного приложения для пользователя
 console.log('Чтобы начать работу, введите help()');
 function help(){
     console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
 }
 
+// Функция выхода из системы
 function quit(){
     window.localStorage.login = '';
     document.location = "/";
@@ -11,39 +27,39 @@ function quit(){
 // Получить и вывести все заявки
 function getapplications(){
     $.post('/getapps_user', {login: window.localStorage.login})
-        .done(function (data){
-            data.forEach(el => {
-                if (el["0"] === false){
-                    $('#opened > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
-                }
-                else{
-                    $('#closed > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
-                }
-            })
-        });
-}
-
-// Получить данные заявки
-function get_app_data(){
-    $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
-        .done(function (data){
-            console.log(data);
-            $('#title').val(data["4"]);
-            $('#name').val(data["1"]);
-            $('#email').val(data["2"]);
-            $('#text').val(data["5"]);
-            $('#phone').val(data["3"]);
-
-            if (data[0] === false){
-                setInterval('get_chat()', 1000);
+    .done(function (data){
+        data.forEach(el => {
+            if (el["0"] === false){
+                $('#opened > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
             }
             else{
-                $('input, textarea').attr('disabled', "true");
-                get_chat()
-                $('#service, .input-chat, button').remove();
+                $('#closed > ul').prepend(`<a class="collection-item" href="/user/apps/${el.id}"><div>${el["4"]}</div></a>`);
             }
+        })
+    });
+}
 
-        });
+// Получить данные заявки и запустить обновление чата
+function get_app_data(){
+    $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', '')})
+    .done(function (data){
+        console.log(data);
+        $('#title').val(data["4"]);
+        $('#name').val(data["1"]);
+        $('#email').val(data["2"]);
+        $('#text').val(data["5"]);
+        $('#phone').val(data["3"]);
+
+        if (data[0] === false){
+            setInterval('get_chat()', 1000);
+        }
+        else{
+            $('input, textarea').attr('disabled', "true");
+            get_chat()
+            $('#service, .input-chat, button').remove();
+        }
+
+    });
 }
 
 // Получить чат заявки
@@ -76,7 +92,6 @@ function send_message(message = ''){
         $('#message').addClass('invalid');
         return false;
     }
-
     $('.chat').append(`<div class="text-message card-panel right-message">
                             <span>Я</span>
                             <p>${message}</p>
@@ -85,9 +100,103 @@ function send_message(message = ''){
     $.post('/send_message', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), text: message})
 }
 
+// Закрытие заявки
 function close_app(){
     rating = $('#rating').val();
-    console.log('Rating: ' + rating)
     $.post('/close_app', {login: window.localStorage.login, id: document.location.pathname.replace('/user/apps/', ''), rating: rating});
     document.location = '/user';
+}
+
+
+
+// 
+// 
+// 
+// Консольные команды
+// 
+// 
+// 
+
+
+
+// Отправить сообщение console
+function send_message_byid(message = '', id){
+    if (message === ''){
+        return false;
+    }
+    if (message.length > 200){
+        console.log('Слишком длинное сообщение');
+        return false;
+    }
+    else{
+        $.post('/send_message', {login: window.localStorage.login, id: id, text: message})
+        console.log('Сообщение отправлено!')
+    }
+}
+
+// Закрытие заявки console
+function close_app_byid(rating = 5, id){
+    if (rating === undefined || id === ''){
+        return false;
+    }
+    if(rating >= 1 && rating <= 5){
+        $.post('/close_app', {login: window.localStorage.login, id: id, rating: rating});
+    }
+    else{
+        console.log('Рейтинг от 1 до 5')
+    }
+}
+
+// Получить и вывести все заявки console
+function get_apps(){
+    $.post('/getapps_user', {login: window.localStorage.login})
+        .done(function (data){
+            opened = [];
+            cl = [];
+            data.forEach(el => {
+                if (el["0"] === false){
+                    opened.push(el);
+                }
+                else if (el["0"] === true){
+                    cl.push(el);
+                }
+            })
+            
+            if (opened.length === 0){
+                console.log('Нет открытых заявок создайте новую!');
+            }
+            else{console.group('Открытые заявки');console.table(opened);console.groupEnd();}
+
+            if (cl.length === 0){
+                console.log('Нет закрытых заявок!');
+            }else{console.group('Закрытые заявки');console.table(cl);console.groupEnd();}
+        });
+}
+
+// Получить данные заявки console
+function get_app_byid(id){
+    $.post('/get_app_data', {login: window.localStorage.login, id: id})
+        .done(function (data){
+            console.log(data);
+            console.table([{title: data["4"], name: data["1"], email:data["2"],text:data["5"],phone:data["3"]}])
+        });
+}
+
+// Получить чат заявки console
+function get_app_chat_byid(id){
+    $.post('/get_chat', {login: window.localStorage.login, id: id})
+        .done(function (data){
+            if (data[0] === undefined){
+                console.log('Пока что нет ни одного сообщения!');
+                return false;
+            }
+            html = '';
+            for (i in data){
+                element = data[i];
+                if (element.sender == false){name = 'Я'; or = 'right'}
+                else{name = 'Техподдержка'; or = 'left'}
+                html += `${name}: ${element.text}\n`;
+            }
+            console.log(html);
+        });
 }

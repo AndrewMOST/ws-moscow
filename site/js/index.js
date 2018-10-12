@@ -1,7 +1,9 @@
-console.log('Чтобы начать работу, введите help()');
-function help(){
-    console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
-}
+// Скрипт главного окна и стартовой консоли
+// Для началы работы нужно войти в систему или зарегистрироваться
+// Команды консоли:
+// register("Пример пароля") — регистрация пользователя
+// login("Ваш логин", "Ваш пароль") — вход в систему
+
 // Регистрация
 function register(password=false){
     $('#datablock').html('');
@@ -22,7 +24,7 @@ function register(password=false){
     
 }
 
-// Авторизация
+// Авторизация пользователя
 function login(login=false, password=false){
     if (!(login && password)){
         login = $('#login').val();
@@ -49,4 +51,10 @@ function login(login=false, password=false){
             }
         }
     );
+}
+
+// Старт консольного приложения
+console.log('Чтобы начать работу, введите help()');
+function help(){
+    console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
 }

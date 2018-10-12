@@ -1,3 +1,18 @@
-Moderator: 
-Login 0xcBec6adB8a28FBd92efE702a001C184A5a457955
-password 123
+Данный файл НЕ является частью проекта,
+а представлен, чтобы жюри могли авторизоваться
+и воспользоваться программой.
+
+Admin:
+pub: 0xcBec6adB8a28FBd92efE702a001C184A5a457955
+priv: 20ba9b0cbee80bbbcc842bab2d1d2e02dd6a58c3e78ba0187092f1a3d35d1c5f
+pas: 123
+
+User:
+pub: 0xdA4a4699E4fEf1F0A829E2d2F0b1B80e8E8A291a
+priv: ab43cdd9e08059f66c761c40f4d3992c7487ff27fbd5db136a47c2ad29ae43ca
+pas: 123
+
+User:
+pub: 0x40A8bD68c4beed89a171e101C4464944A1D2f735
+priv: 8fb9af9b738c4b9dc56caad9e313d93b3838dbfa8aec250955c09034f21d09df
+pas: 123

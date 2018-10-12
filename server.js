@@ -61,7 +61,6 @@ app.post('/signin', function(req, res) {
     var logdata = req.body;
     // Сравниваем адрес и хеши паролей
     db.collection('BCUsers').findOne({address: logdata.login,password: web3.utils.sha3(logdata.password)}, function (err, result) {
-        console.log(result);
         if (result === null) {
             return res.send('false')
         }
@@ -106,7 +105,6 @@ app.post('/createapp', function(req, res){
                 "moderator": "0x0",
                 "status": 0
             };
-            console.log(meta);
             db.collection('appscollection').insertOne(meta, function(err, result){
                 if (err){
                     return console.log(err)
@@ -149,7 +147,6 @@ app.post('/send_message', function(req, res){
 
     // Обращение к блокчейну
     contract.methods.sendMessage(id, text).send({from: login}).then(function(receipt){
-        console.log(receipt.events);
         res.sendStatus(200);
     });
 });
@@ -196,7 +193,6 @@ app.get('/moder/apps/:id', function(req, res){
 });
 
 app.post('/user/apps/:id', function(req, res){
-    console.log(req.body);
     // Берем нужные данныеы из JSON'а запроса
     appdata = req.body;
     // Отправляем транзакцию в блокчейн
@@ -234,10 +230,9 @@ app.post('/get_app_data', function(req, res){
 });
 
 // Post-запрос для проверки, является ли пользователь модератором
-app.post('/check_if_moder', function(req, res){ // TODO: БЧ
+app.post('/check_if_moder', function(req, res){
     data = req.data;
     db.collection('BCUsers').findOne({address: data.login}, function (err, result) {
-        console.log(result);
         if (result.status === 0) {
             return res.send(false);
         }
@@ -251,7 +246,6 @@ app.post('/getapps_moderator_available', function(req, res){
     var moderator = req.body.moderator;
     // Получение всех заявок, принятых модератором
     db.collection('appscollection').find({moderator: '0x0'}).toArray(function(error, result) {
-        // console.log(result);
         promises = [];
         ids = [];
 
@@ -260,7 +254,6 @@ app.post('/getapps_moderator_available', function(req, res){
         result.forEach(element => {
             promises.push(
                 new Promise(function(resolve, reject) {
-                    // console.log(element);
                     ids.push(element.id);
                     resolve(contract.methods.getAppData(element.id).call({from: moderator}));
                 })
@@ -271,7 +264,6 @@ app.post('/getapps_moderator_available', function(req, res){
             for(i = 0; i < ids.length; ++i){
                 values[i]['id'] = ids[i];
             }
-            // console.log(ids);
             res.send(values);
         });
     });
@@ -283,7 +275,6 @@ app.post('/getapps_moderator_taken', function(req, res){
     var moderator = req.body.moderator;
     // Получение всех заявок, принятых модератором
     db.collection('appscollection').find({moderator: moderator}).toArray(function(error, result) {
-        console.log(result);
         promises = [];
         ids = [];
 

@@ -1,14 +1,14 @@
 var TechSupport = artifacts.require('TechSupport');
 
-var abi = require('ethereumjs-abi');
-var BN = require('bn.js');
-var Web3 = require("web3");
-
 contract('TechSupport', function(accounts) {
 
+    // Переменная, хранящая контракт
     var contract;
+    // Переменная, хранящая аккаунт создателя контракта
     var owner = accounts[0];
 
+    // Создание нового instance контракта
+    // перед вызовом каждого юнит-теста
     beforeEach(function() {
         return TechSupport.new({from: owner})
         .then(function(instance) {
@@ -16,9 +16,11 @@ contract('TechSupport', function(accounts) {
         });
     });
 
+    // Контракт должен уметь создавать заявки
+    // и возвращать данные о них
     it('should be able to create applications & get their titles', function() {
         return contract.submitApplication(
-            "Alex",
+            "Test Username",
             "test@test.test",
             "999-999",
             "I'm addicted to coding pls help",
@@ -34,6 +36,7 @@ contract('TechSupport', function(accounts) {
         });
     });
 
+    // Контракт должен уметь редактировать созданные заявки
     it('should be able to edit created applications', function() {
         return contract.submitApplication(
             "Alex",

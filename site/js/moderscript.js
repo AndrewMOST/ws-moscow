@@ -1,7 +1,7 @@
 console.log('Чтобы начать работу, введите help()');
 
 function help(){
-    console.log('Ниже представлен список комманд:\nget_app() — получить данные о заявках\nquit() — выйти\n');
+    console.log('Ниже представлен список комманд:\nget_app() — получить данные о заявках\nquit() — выйти\ntake_app(id заяки) — взять заявку.');
 }
 
 function quit(){
@@ -47,7 +47,7 @@ function get_app(){
                     ok.push(el)
                 }
             })
-            console.log(available);
+            console.table(available);
             if (available.length === 0){console.log('Нет ни одной доступной заявки');}
             console.groupEnd();
         }).then(function(){

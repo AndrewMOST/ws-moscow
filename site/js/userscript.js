@@ -19,6 +19,7 @@ function help(){
 get_apps() — получить заявки пользователя (закрытые и открытые)
 get_app_byid(id заявки) — получить данные заявки
 get_app_chat_byid(id заявки) — получить чат заявки
+create_app(title, name, phone, email, text) — создать заявку
 send_message_byid("Ваше сообщение", id заявки) — отправить сообшение по id заявки
 close_app_byid(rating(от 1 до 5), id заявки) — закрыть заявку
 quit() — выход из системы, очистка кэша и т. д.`

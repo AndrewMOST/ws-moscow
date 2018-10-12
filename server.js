@@ -308,7 +308,7 @@ app.post('/take_app', function(req, res){
         contract.methods.ratings(appdata.moderator).call({from: appdata.moderator}).then(function(result){
             rating = result;
             if(rating < 3 && amount > 5){
-                res.sendStatus(500);
+                res.send('frozen');
             }
             else {
                 contract.methods.acceptApplication(appdata.id).send({from: appdata.moderator}).then(function(){

@@ -1,6 +1,7 @@
 console.log('Чтобы начать работу, введите help()');
+
 function help(){
-    console.log('Зарегистрируйтесь или войдите по логину и паролю!\nregister("Пример пароля")\nlogin("Ваш логин", "Ваш пароль")');
+    console.log('Ниже представлен список комманд:\nget_app() — получить данные о заявках\nquit() — выйти\n');
 }
 
 function quit(){
@@ -13,8 +14,8 @@ function getapplications(){
     $.post('/getapps_moderator_available', {moderator: window.localStorage.login})
         .done(function (data){
             $('#available > ul').html('');
-            avalible = data;
-            avalible.forEach(el => {
+            available = data;
+            available.forEach(el => {
                 if (el["0"] !== true){
                     $('#available > ul').prepend(`<li class="collection-item"><div>${el["4"]}<a href="javascript:take_app(${el.id})" class="secondary-content"><i class="material-icons">done</i></a></div></li>`);
                 }
@@ -34,14 +35,33 @@ function getapplications(){
 
     
 }
-
-function take_app(id){
-    $.post('/take_app', {moderator: window.localStorage.login, id: id}).done(
-        (data) => {
-            getapplications();
-        }
-    )
+// Получить и вывести все заявки console
+function get_app(){
+    $.post('/getapps_moderator_available', {moderator: window.localStorage.login})
+        .done(function (data){
+            available = data;
+            console.group('Доступные');
+            ok = []
+            available.forEach(el => {
+                if (el["0"] !== true){
+                    ok.push(el)
+                }
+            })
+            console.log(available);
+            if (available.length === 0){console.log('Нет ни одной доступной заявки');}
+            console.groupEnd();
+        }).then(function(){
+            $.post('/getapps_moderator_taken', {moderator: window.localStorage.login})
+                .done(function (data){
+                    taken = data;
+                    console.group('Активные');
+                    console.table(taken);
+                    if (taken.length === 0){console.log('Вы не взяли ни одной заявки')}
+                    console.groupEnd();
+                });
+        });
 }
+
 // Получить данные заявки
 function get_app_data(){
     $.post('/get_app_data', {login: window.localStorage.login, id: document.location.pathname.replace('/moder/apps/', '')})

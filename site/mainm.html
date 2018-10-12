@@ -38,6 +38,19 @@
 
         </div></div></div>
     </div>
+    
+    
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+        <h4>Вы забанены</h4>
+        <p>К сожалению, ваш аккаунт был заблокирован за слишком низкий рейтинг среди пользователей!</p>
+        </div>
+        <div class="modal-footer">
+        <a class="modal-close waves-effect waves-green btn-flat">Ок</a>
+        </div>
+    </div>
+
   </body>
       <!-- Подключаем Jquery -->
       <script src="js/jquery-3.3.1.js"></script>
@@ -47,9 +60,28 @@
 
   <script>
       $(document).ready(function(){
+        $('.modal').modal();
         $('.tabs').tabs({swipeable:true, duration: 200});
         getapplications();
         setInterval('getapplications()', 1000);
       });
   </script>
+  <script>
+  
+function take_app(id){
+    $.post('/take_app', {moderator: window.localStorage.login, id: id}).done(
+        (data) => {
+            if (data === 'frozen'){
+                $('#modal1').modal('open');
+                console.log('К сожалению, ваш аккаунт был заблокирован за слишком низкий рейтинг среди пользователей!')
+                return false;
+            }
+            else{
+                getapplications();
+                get_app();
+            }
+        }
+    )
+}
+</script>
 </html>

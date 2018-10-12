@@ -4,6 +4,7 @@
 // get_apps() — получить заявки пользователя (закрытые и открытые)
 // get_app_byid(id заявки) — получить данные заявки
 // get_app_chat_byid(id заявки) — получить чат заявки
+// create_app(title, name, phone, email, text) — создать заявку
 // send_message_byid("Ваше сообщение", id заявки) — отправить сообшение по id заявки
 // close_app_byid(rating(от 1 до 5), id заявки) — закрыть заявку
 // quit() — выход из системы, очистка кэша и т. д.
@@ -115,13 +116,13 @@ function close_app(){
 
 
 
-// 
-// 
-// 
+//
+//
+//
 // Консольные команды
-// 
-// 
-// 
+//
+//
+//
 
 
 
@@ -166,7 +167,7 @@ function get_apps(){
                     cl.push(el);
                 }
             })
-            
+
             if (opened.length === 0){
                 console.log('Нет открытых заявок создайте новую!');
             }
@@ -203,4 +204,17 @@ function get_app_chat_byid(id){
             }
             console.log(html);
         });
+}
+
+// Создать заявку console
+function createapp(title='',name='', phone='', text='', email=''){
+    if(title === '' || name === '' || text === '' || email === '' || phone === ''){
+        console.log('Ошибка при создании');
+    }
+    $.post('/createapp', {login: window.localStorage.login, title:title, name:name, phone:phone, text:text, email:email})
+    .done(function (data){
+        console.log('Заявка создана');
+    }).fail(function (data){
+        console.log('Ошибка при создании');
+    });
 }

@@ -146,7 +146,7 @@ app.post('/send_message', function(req, res){
     var text = req.body.text;
 
     // Обращение к блокчейну
-    contract.methods.sendMessage(id, text).send({from: login}).then(function(receipt){
+    contract.methods.sendMessage(id, text).send({from: login, gas: 40000000}).then(function(receipt){
         res.sendStatus(200);
     });
 });

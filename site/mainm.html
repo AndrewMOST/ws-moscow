@@ -58,30 +58,35 @@
   <script src="js/moderscript.js"></script>
   <script src="js/materialize.min.js"></script>
 
-  <script>
-      $(document).ready(function(){
-        $('.modal').modal();
-        $('.tabs').tabs({swipeable:true, duration: 200});
-        getapplications();
-        setInterval('getapplications()', 1000);
-      });
-  </script>
-  <script>
-  
-function take_app(id){
-    $.post('/take_app', {moderator: window.localStorage.login, id: id}).done(
-        (data) => {
-            if (data === 'frozen'){
-                $('#modal1').modal('open');
-                console.log('К сожалению, ваш аккаунт был заблокирован за слишком низкий рейтинг среди пользователей!')
-                return false;
-            }
-            else{
-                getapplications();
-                get_app();
-            }
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal();
+            $('.tabs').tabs({swipeable:true, duration: 200});
+            getapplications();
+            setInterval('getapplications()', 1000);
+        });
+    </script>
+    <script>
+        // Функция для взятия заявки
+        function take_app(id){
+            $.post('/take_app', {moderator: window.localStorage.login, id: id}).done(
+                (data) => {
+                    if (data === ''){
+                        console.log('Нельзя взять заявку');
+                        return false;
+                    }
+                    if (data === 'frozen'){
+                        $('#modal1').modal('open');
+                        console.log('К сожалению, ваш аккаунт был заблокирован за слишком низкий рейтинг среди пользователей!')
+                        return false;
+                    }
+                    else{
+                        console.log('Вы взяли заявку');
+                        getapplications();
+                        get_app();
+                    }
+                }
+            ).fail(()=>{console.log('Нельзя взять заявку');});
         }
-    )
-}
-</script>
+    </script>
 </html>

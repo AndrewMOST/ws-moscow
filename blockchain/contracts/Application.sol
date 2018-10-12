@@ -71,6 +71,7 @@ contract Application {
         ApplicationData memory _app = applications[_appId];
         // Смотреть могут только участники заявки
         require((_app.user == msg.sender)||(_app.moderator == msg.sender), "The application is not yours!");
+        // Отправляем сообщение
         return (senders[_appId][_lastMessage], messages[_appId][_lastMessage]);
     }
 }

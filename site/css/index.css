@@ -100,3 +100,6 @@ textarea.materialize-textarea:focus:not([read-only]) + label{
 input:disabled{
     color:white !important;
 }
+.modal{
+    color:black;
+}

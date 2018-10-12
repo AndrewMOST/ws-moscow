@@ -44,10 +44,10 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
         <h4>Вы забанены</h4>
-        <p>К сожалению, ваш аккаунт был заблакирован за слишком низкий рейтинг среди пользователей</p>
+        <p>К сожалению, ваш аккаунт был заблокирован за слишком низкий рейтинг среди пользователей!</p>
         </div>
         <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Ок</a>
+        <a class="modal-close waves-effect waves-green btn-flat">Ок</a>
         </div>
     </div>
 
@@ -73,10 +73,12 @@ function take_app(id){
         (data) => {
             if (data === 'frozen'){
                 $('#modal1').modal('open');
+                console.log('К сожалению, ваш аккаунт был заблокирован за слишком низкий рейтинг среди пользователей!')
                 return false;
             }
             else{
                 getapplications();
+                get_app();
             }
         }
     )
